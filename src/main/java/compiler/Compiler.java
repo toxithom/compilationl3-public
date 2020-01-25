@@ -1,6 +1,8 @@
-import sc.parser.*;
-import sc.lexer.*;
-import sc.node.*;
+package compiler;
+
+import compiler.sc.parser.*;
+import compiler.sc.lexer.*;
+import compiler.sc.node.*;
 import java.io.*;
 //import sa.*;
 //import ts.*;
@@ -8,30 +10,28 @@ import java.io.*;
 //import nasm.*;
 //import fg.*;
 
-public class Compiler
-{
-    public static void main(String[] args)
-    {
-	PushbackReader br = null;
-	String baseName = null;
-	try {
+public class Compiler {
+  public static void main (String[] args) {
+	  PushbackReader br = null;
+	  String baseName = null;
+
+	  try {
 	    if (0 < args.length) {
-		br = new PushbackReader(new FileReader(args[0]));
-		baseName = removeSuffix(args[0], ".l");
+		    br = new PushbackReader(new FileReader(args[0]));
+		    baseName = removeSuffix(args[0], ".l");
+	    } else {
+		    System.out.println("il manque un argument");
 	    }
-	    else{
-		System.out.println("il manque un argument");
-	    }
-	}
-	catch (IOException e) {
+	  }	catch (IOException e) {
 	    e.printStackTrace();
-	} 
-	try {
+	  }
+
+	  try {
 	    // Create a Parser instance.
 	    Parser p = new Parser(new Lexer(br));
 	    // Parse the input.
 	    Start tree = p.parse();
-	    
+
 	    System.out.println("[SC]");
 	    tree.apply(new Sc2Xml(baseName));
 
@@ -40,7 +40,7 @@ public class Compiler
 	    tree.apply(sc2sa);
 	    SaNode saRoot = sc2sa.getRoot();
 	    new Sa2Xml(saRoot, baseName);
-		    
+
 	    System.out.println("[TABLE SYMBOLES]");
 	    Ts table = new Sa2ts(saRoot).getTableGlobale();
 	    table.afficheTout(baseName);
@@ -60,22 +60,18 @@ public class Compiler
 	    System.out.println("[FLOW GRAPH SOLVE]");
 	    FgSolution fgSolution = new FgSolution(nasm, fg);
 	    fgSolution.affiche(baseName);*/
-	    
 
-	    
-	}
-	catch(Exception e){
+
+
+	  }	catch(Exception e) {
 	    System.out.println(e.getMessage());
-	}
-    }
+	  }
+  }
 
-
-    public static String removeSuffix(final String s, final String suffix)
-    {
-	if (s != null && suffix != null && s.endsWith(suffix)){
+  public static String removeSuffix (final String s, final String suffix) {
+	  if (s != null && suffix != null && s.endsWith(suffix))
 	    return s.substring(0, s.length() - suffix.length());
-	}
-	return s;
-    }
-    
+
+	  return s;
+  }
 }
