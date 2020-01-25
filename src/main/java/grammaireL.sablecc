@@ -1,0 +1,48 @@
+Package compiler.sc;
+
+Helpers
+
+alpha = [['a' .. 'z'] + ['A' .. 'Z']];
+digit = ['0' .. '9'];
+
+Tokens
+
+number = digit+;
+id = alpha(alpha|digit)*;
+plus = '+';
+minus = '-';
+mult = '*';
+div = '/';
+mod = '%';
+eq = '=';
+lt = '<';
+l_par = '(';
+r_par = ')';
+l_curly_brace = '{';
+r_curly_brace = '}';
+l_bracket = '[';
+r_bracket = ']';
+comma = ',';
+semi_col = ';';
+
+if = 'si';
+then = 'alors';
+else = 'sinon';
+while = 'tantque';
+do = 'faire';
+return = 'retour';
+
+int_type = 'entier';
+
+blank = (' ' | 13 | 10)+;
+comment = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+
+Ignored Tokens
+
+blank, comment;
+
+Productions
+
+expr = id plus number;
+//programme = optdecvar listedecfonc ;
+
