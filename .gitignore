@@ -3,3 +3,6 @@ build
 .idea/
 out/
 *.iml
+
+# generated files
+src/main/java/compiler/sc
