@@ -2,20 +2,30 @@ Package compiler.sc;
 
 Helpers
 
-alpha = [['a' .. 'z'] + ['A' .. 'Z']];
-digit = ['0' .. '9'];
+alpha = [['a' .. 'z'] + ['A' .. 'Z']] ;
+digit = ['0' .. '9'] ;
+underscore = '_' ;
+dash = '-' ;
+extalpha = '[underscore + alpha]' ;
+
+//tab = '9' ;
+//lf = '10' ;
+//cr = '13'
 
 Tokens
 
 number = digit+;
-id = alpha(alpha|digit)*;
+
 plus = '+';
 minus = '-';
-mult = '*';
+times = '*';
 div = '/';
 mod = '%';
 eq = '=';
 lt = '<';
+and = '&';
+or = '|';
+not = '!';
 l_par = '(';
 r_par = ')';
 l_curly_brace = '{';
@@ -32,10 +42,15 @@ while = 'tantque';
 do = 'faire';
 return = 'retour';
 
-int_type = 'entier';
+type_int = 'entier';
+type_bool = 'bool';
+false = 'faux';
+true = 'vrai';
 
 blank = (' ' | 13 | 10)+;
 comment = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+
+id = (alpha(alpha|digit)*);
 
 Ignored Tokens
 
@@ -43,6 +58,90 @@ blank, comment;
 
 Productions
 
-expr = id plus number;
-//programme = optdecvar listedecfonc ;
+prog = optvars functions ;
 
+optvars =
+    {not_empty} dvar dvars semi_col |
+    {empty} ;
+dvar =
+    {simple} type id |
+    {array} type id l_bracket number r_bracket ;
+dvars =
+    {append} comma dvar dvars |
+    {empty} ;
+type =
+    {int} type_int |
+    {bool} type_bool ;
+
+functions =
+    {not_empty} dfunc functions |
+    {empty} ;
+dfunc =
+    id l_par optargs r_par optvars block ;
+optargs =
+    {list} dvar dvars |
+    {empty} ;
+
+e =
+    {or} e or e1 |
+    {and} e1 ;
+e1 =
+    {and} e1 and e2 |
+    {equal} e2 ;
+e2 =
+    {equal} e2 eq e3 |
+    {lt} e2 lt e3 |
+    {add} e3 ;
+e3 =
+    {add} e3 plus e4 |
+    {sub} e3 minus e4 |
+    {factor} e4 ;
+e4 =
+    {factor} e4 times e5 |
+    {div} e4 div e5 |
+    {not} e5 ;
+e5 =
+    {not} not e5 |
+    {par} e6 ;
+e6 =
+    {par} l_par e r_par |
+    {term} term ;
+
+term =
+    {num} number |
+    {var} var |
+    {call} call ;
+var =
+    {simple} id |
+    {array} id l_bracket e r_bracket ;
+call =
+    id l_par args r_par ;
+args =
+    {empty} |
+    {list} e es ;
+es =
+    {append} comma e es |
+    {empty} ;
+
+statement =
+    {assign} assign |
+    {if} P.if |
+    {loop} P.while |
+    {call} call semi_col |
+    {return} P.return ;
+statements =
+    {append} statement statements |
+    {empty} ;
+assign =
+    var eq e semi_col;
+if =
+    T.if e then block P.else ;
+else =
+    {else} T.else block |
+    {empty} ;
+while =
+    T.while e do block ;
+return =
+    T.return e semi_col;
+block =
+    l_curly_brace statements r_curly_brace ;
