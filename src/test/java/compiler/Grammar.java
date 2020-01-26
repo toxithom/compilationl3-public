@@ -20,14 +20,14 @@ public class Grammar {
 
   @ParameterizedTest
   @MethodSource
-  void shouldNotThrowParserException (File file) throws IOException {
-    Lexer lexer = new Lexer(new PushbackReader(new FileReader(file.getAbsolutePath())));
+  void shouldNotThrowParserOrLexerException (File file) throws IOException {
+    Lexer lexer = new Lexer(new PushbackReader(new FileReader(file)));
     Parser parser = new Parser(lexer);
     assertDoesNotThrow(parser::parse);
   }
 
   @SuppressWarnings("unused")
-  private static Stream<File> shouldNotThrowParserException () {
+  private static Stream<File> shouldNotThrowParserOrLexerException () {
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
     URL url = loader.getResource("input");
     assert url != null;
