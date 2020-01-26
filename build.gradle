@@ -9,15 +9,10 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 repositories {
-    flatDir {
-       dirs 'libs'
-   }
     jcenter()
 }
 
 dependencies {
-    compile files('libs/sablecc.jar')
-
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1',
           'org.junit.jupiter:junit-jupiter-params:5.5.1'
 
@@ -29,11 +24,15 @@ application {
 }
 
 test {
+    dependsOn 'cleanTest'
     useJUnitPlatform()
 }
 
-task generateParser(type: Exec) {
-    commandLine 'java',  '-jar', 'libs/sablecc.jar', 'src/main/java/grammaireL.sablecc'
+task sablecc(type: Exec) {
+    doFirst {
+        delete 'src/main/java/compiler/sc'
+    }
+    commandLine 'java',  '-jar', '.bin/sablecc.jar', 'src/main/java/grammaireL.sablecc'
 }
 
 processResources {
@@ -42,4 +41,4 @@ processResources {
     }
 }
 
-//compileJava.dependsOn generateParser
+//compileJava.dependsOn sablecc
