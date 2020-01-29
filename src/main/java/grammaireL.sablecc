@@ -77,8 +77,8 @@ functions =
     {not_empty} dfunc functions |
     {empty} ;
 dfunc =
-    id l_par optargs r_par optvars block ;
-optargs =
+    id l_par parameters r_par optvars block ;
+parameters =
     {list} dvar dvars |
     {empty} ;
 
@@ -115,8 +115,8 @@ var =
     {simple} id |
     {array} id l_bracket e r_bracket ;
 call =
-    id l_par args r_par ;
-args =
+    id l_par arguments r_par ;
+arguments =
     {empty} |
     {list} e es ;
 es =
