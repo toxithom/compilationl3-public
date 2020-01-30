@@ -3,19 +3,16 @@ Package compiler.sc;
 Helpers
 
 alpha = [['a' .. 'z'] + ['A' .. 'Z']] ;
+nondigit = ['$' + ['-' + ['_' + alpha]]] ;
 digit = ['0' .. '9'] ;
-underscore = '_' ;
-dash = '-' ;
-extalpha = '[underscore + alpha]' ;
 
 //tab = '9' ;
 //lf = '10' ;
-//cr = '13'
+//cr = '13' ;
 
 Tokens
 
 number = digit+;
-
 plus = '+';
 minus = '-';
 times = '*';
@@ -50,7 +47,9 @@ true = 'vrai';
 blank = (' ' | 13 | 10)+;
 comment = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
 
-id = (alpha(alpha|digit)*);
+read = 'lire';
+write = 'ecrire';
+id = (nondigit(nondigit|digit)*);
 
 Ignored Tokens
 
@@ -110,7 +109,8 @@ e6 =
 term =
     {num} number |
     {var} var |
-    {call} call ;
+    {call} call |
+    {read} P.read ;
 var =
     {simple} id |
     {array} id l_bracket e r_bracket ;
@@ -122,13 +122,18 @@ arguments =
 es =
     {append} comma e es |
     {empty} ;
+read =
+    T.read l_par arguments r_par ;
 
 statement =
     {assign} assign |
     {if} P.if |
     {loop} P.while |
     {call} call semi_col |
-    {return} P.return ;
+    {write} P.write |
+    {return} P.return |
+    {block} block |
+    {empty} semi_col ;
 statements =
     {append} statement statements |
     {empty} ;
@@ -141,7 +146,9 @@ else =
     {empty} ;
 while =
     T.while e do block ;
+write =
+    T.write l_par arguments r_par semi_col ;
 return =
-    T.return e semi_col;
+    T.return e semi_col ;
 block =
     l_curly_brace statements r_curly_brace ;
