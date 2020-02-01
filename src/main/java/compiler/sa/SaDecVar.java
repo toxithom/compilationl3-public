@@ -1,5 +1,5 @@
 package compiler.sa;
-import ts.*;
+import compiler.ts.*;
 
 public class SaDecVar implements SaDec{
     private String nom;

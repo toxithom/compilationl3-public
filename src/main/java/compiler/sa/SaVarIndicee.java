@@ -1,5 +1,5 @@
 package compiler.sa;
-import ts.*;
+import compiler.ts.*;
 
 public class SaVarIndicee implements SaVar{
     private String nom;

@@ -1,5 +1,5 @@
 package compiler.sa;
-import ts.*;
+import compiler.ts.*;
 
 public class SaDecTab implements SaDec{
     private String nom;

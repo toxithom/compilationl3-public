@@ -1,6 +1,6 @@
 package compiler.sa;
 import java.util.*;
-import ts.*;
+import compiler.ts.*;
 
 
 // P -> LDEC LDEC
