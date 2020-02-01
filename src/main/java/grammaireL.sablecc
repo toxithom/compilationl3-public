@@ -123,7 +123,7 @@ es =
     {append} comma e es |
     {empty} ;
 read =
-    T.read l_par arguments r_par ;
+    T.read l_par r_par ;
 
 statement =
     {assign} assign |
@@ -147,7 +147,7 @@ else =
 while =
     T.while e do block ;
 write =
-    T.write l_par arguments r_par semi_col ;
+    T.write l_par e r_par semi_col ;
 return =
     T.return e semi_col ;
 block =
