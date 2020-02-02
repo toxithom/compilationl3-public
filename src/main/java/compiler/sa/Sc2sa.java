@@ -16,55 +16,47 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAProg (AProg node) {
-    SaLDec optVars = null, functions = null;
-    // @TODO : remove null checks ?
-    if (node.getOptvars() != null) {
-      node.getOptvars().apply(this);
-      optVars = (SaLDec) this.returnValue;
-    }
+    node.getOptvars().apply(this);
+    SaLDec optVars = (SaLDec) returnValue;
+    node.getFunctions().apply(this);
+    SaLDec functions = (SaLDec) returnValue;
 
-    if (node.getFunctions() != null) {
-      node.getFunctions().apply(this);
-      functions = (SaLDec) this.returnValue;
-    }
-
-    this.returnValue = new SaProg(optVars, functions);
+    returnValue = new SaProg(optVars, functions);
   }
 
   public void caseANotEmptyOptvars (ANotEmptyOptvars node) {
     node.getDvar().apply(this);
-    SaDec head = (SaDec) this.returnValue;
+    SaDec head = (SaDec) returnValue;
     node.getDvars().apply(this);
-    SaLDec tail = (SaLDec) this.returnValue;
+    SaLDec tail = (SaLDec) returnValue;
 
-    this.returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec(head, tail);
   }
 
   public void caseASimpleDvar (ASimpleDvar node) {
-    this.returnValue = new SaDecVar(node.getId().getText());
+    returnValue = new SaDecVar(node.getId().getText());
   }
 
   public void caseAArrayDvar (AArrayDvar node) {
-    // FIXME : size ignored ?
     returnValue = new SaDecTab(node.getId().getText(), Integer.parseInt(node.getNumber().toString().trim()));
   }
 
   public void caseAAppendDvars (AAppendDvars node) {
     node.getDvar().apply(this);
-    SaDec head = (SaDec) this.returnValue;
+    SaDec head = (SaDec) returnValue;
     node.getDvars().apply(this);
-    SaLDec tail = (SaLDec) this.returnValue;
+    SaLDec tail = (SaLDec) returnValue;
 
-    this.returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec(head, tail);
   }
 
   public void caseANotEmptyFunctions (ANotEmptyFunctions node) {
     node.getDfunc().apply(this);
-    SaDec head = (SaDec) this.returnValue;
+    SaDec head = (SaDec) returnValue;
     node.getFunctions().apply(this);
     SaLDec tail = (SaLDec) returnValue;
 
-    this.returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec(head, tail);
   }
 
   public void caseADfunc (ADfunc node) {
@@ -75,21 +67,21 @@ public class Sc2sa extends DepthFirstAdapter {
     node.getBlock().apply(this);
     SaInst body = (SaInst) returnValue;
 
-    this.returnValue = new SaDecFonc(node.getId().getText(), params, vars, body);
+    returnValue = new SaDecFonc(node.getId().getText(), params, vars, body);
   }
 
   public void caseAListParameters (AListParameters node) {
     node.getDvar().apply(this);
-    SaDec head = (SaDec) this.returnValue;
+    SaDec head = (SaDec) returnValue;
     node.getDvars().apply(this);
     SaLDec tail = (SaLDec) returnValue;
 
-    this.returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec(head, tail);
   }
 
   public void caseABlock (ABlock block) {
     block.getStatements().apply(this);
-    this.returnValue = new SaInstBloc((SaLInst) returnValue);
+    returnValue = new SaInstBloc((SaLInst) returnValue);
   }
 
   public void caseAAppendStatements (AAppendStatements node) {

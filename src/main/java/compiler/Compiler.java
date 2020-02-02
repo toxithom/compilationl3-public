@@ -32,15 +32,17 @@ public class Compiler {
 	    // Parse the input.
 	    Start tree = p.parse();
 
-	    System.out.println("[SC]");
-	    tree.apply(new Sc2Xml(baseName));
+	    //System.out.println("[SC]");
+	    //tree.apply(new Sc2Xml(baseName));
+	    //tree.apply(new Sc2Xml(null));
 
-	    /*System.out.println("[SA]");
+	    System.out.println("[SA]");
 	    Sc2sa sc2sa = new Sc2sa();
 	    tree.apply(sc2sa);
 	    SaNode saRoot = sc2sa.getRoot();
-	    new Sa2Xml(saRoot, baseName);
-
+	    //new Sa2Xml(saRoot, baseName);
+	    new Sa2Xml(saRoot, null);
+      /*
 	    System.out.println("[TABLE SYMBOLES]");
 	    Ts table = new Sa2ts(saRoot).getTableGlobale();
 	    table.afficheTout(baseName);
