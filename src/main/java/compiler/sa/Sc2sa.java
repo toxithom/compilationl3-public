@@ -288,6 +288,7 @@ public class Sc2sa extends DepthFirstAdapter {
 
   public void caseACallTerm (ACallTerm node) {
     node.getCall().apply(this);
+    returnValue = new SaExpAppel((SaAppel) returnValue);
   }
 
   public void caseAReadTerm (AReadTerm node) {
