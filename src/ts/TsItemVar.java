@@ -1,6 +1,6 @@
 package ts;
 
-public class TsItemVar extends TsItem {
+public class TsItemVar {//extends TsItem {
     public Ts portee;
     public int adresse;
     public String identif;
