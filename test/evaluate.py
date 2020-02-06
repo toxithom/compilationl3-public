@@ -7,6 +7,17 @@ import subprocess
 classpath = ""
 
 ################################################################################
+def compileCompiler() :
+  print("Compiling Compiler.java...", end="", file=sys.stderr)
+  returnCode = subprocess.Popen("cd ../src/ && javac Compiler.java", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).wait()
+  if returnCode == 0 :
+    print("Done", file=sys.stderr)
+  else :
+    print("ERROR !", file=sys.stderr)
+  print("", file=sys.stderr)
+################################################################################
+
+################################################################################
 def findClasspath() :
   global classpath
 
@@ -26,7 +37,6 @@ def findClasspath() :
 
 ################################################################################
 def compiler() :
-#return "java -classpath ../src:../out/production/compilationl3-public Compiler"
   return "java -classpath %s Compiler"%findClasspath()
 ################################################################################
 
@@ -167,6 +177,8 @@ def printEvaluationResult(destination, evaluationResult, useColor) :
 
 ################################################################################
 if __name__ == "__main__" :
+  compileCompiler()
+
   inputFiles = findInputFiles()
   deleteCompilationOutputs()
   compileInputFiles(inputFiles)
