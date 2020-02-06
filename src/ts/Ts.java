@@ -71,12 +71,27 @@ public class Ts
     
 	 
     public void affiche(PrintStream out){
-	Set< Map.Entry< String, TsItemVar> > stVar = this.variables.entrySet();    
+	ArrayList< Map.Entry< String, TsItemVar> > stVar = new ArrayList<Map.Entry< String, TsItemVar>>(this.variables.entrySet());
+  Collections.sort(stVar, new Comparator<Map.Entry< String, TsItemVar>>() {
+        @Override
+        public int compare(Map.Entry< String, TsItemVar> entry1, Map.Entry< String, TsItemVar> entry2)
+        {
+          return entry1.getKey().compareTo(entry2.getKey());
+        }
+  });
 	for (Map.Entry< String, TsItemVar> me:stVar){ 
 	    out.println(me.getValue());
 	    //	    out.println(me.getKey() + ":\t" + me.getValue());
 	}
-	Set< Map.Entry< String, TsItemFct> > stFct = this.fonctions.entrySet();    
+
+	ArrayList< Map.Entry< String, TsItemFct> > stFct = new ArrayList<Map.Entry< String, TsItemFct>>(this.fonctions.entrySet());
+  Collections.sort(stFct, new Comparator<Map.Entry< String, TsItemFct>>() {
+        @Override
+        public int compare(Map.Entry< String, TsItemFct> entry1, Map.Entry< String, TsItemFct> entry2)
+        {
+          return entry1.getKey().compareTo(entry2.getKey());
+        }
+  });
 	for (Map.Entry< String, TsItemFct> me:stFct){ 
 	    out.println(me.getValue());
 	    //	    out.println(me.getKey() + ":\t" + me.getValue());
@@ -84,7 +99,14 @@ public class Ts
     }
 	
     public void afficheTablesLocales(PrintStream out){
-	Set< Map.Entry< String, TsItemFct> > st = this.fonctions.entrySet();    
+	ArrayList< Map.Entry< String, TsItemFct> > st = new ArrayList<Map.Entry< String, TsItemFct>>(this.fonctions.entrySet());
+  Collections.sort(st, new Comparator<Map.Entry< String, TsItemFct>>() {
+        @Override
+        public int compare(Map.Entry< String, TsItemFct> entry1, Map.Entry< String, TsItemFct> entry2)
+        {
+          return entry1.getKey().compareTo(entry2.getKey());
+        }
+  });
 	for (Map.Entry< String, TsItemFct> me:st){
 	    if(me.getValue().getTable() != null){
 		out.println("TABLE LOCALE : " + me.getKey());
