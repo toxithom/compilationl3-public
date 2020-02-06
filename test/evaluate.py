@@ -59,8 +59,8 @@ def green(string) :
 ################################################################################
 
 ################################################################################
-def yellow(string) :
-  return "\033[93m%s\033[0m"%string
+def purple(string) :
+  return "\033[95m%s\033[0m"%string
 ################################################################################
 
 ################################################################################
@@ -184,7 +184,7 @@ def printEvaluationResult(destination, evaluationResult, useColor) :
   print("Évaluation de %s :"%name, file=destination)
   print("{}/{} correct ({:6.2f}%)".format(nbCorrect, nbTotal, 100.0*nbCorrect/nbTotal), file=destination)
   printListElements(destination, correct, green, useColor, "CORRECT")
-  printListElements(destination, incorrect, yellow, useColor, "INCORRECT")
+  printListElements(destination, incorrect, purple, useColor, "INCORRECT")
   printListElements(destination, notfound, red, useColor, "NON-EXISTANT")
 ################################################################################
 
@@ -204,7 +204,7 @@ if __name__ == "__main__" :
   useColor = True
 
   if useColor :
-    print("Légende : {}  {}  {}".format(green("CORRECT"), yellow("INCORRECT"), red("NON-EXISTANT")))
+    print("Légende : {}  {}  {}".format(green("CORRECT"), purple("INCORRECT"), red("NON-EXISTANT")))
 
   printEvaluationResult(sys.stdout, saEvaluation, useColor)
   printEvaluationResult(sys.stdout, tsEvaluation, useColor)
