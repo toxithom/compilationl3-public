@@ -18,6 +18,19 @@ def compileCompiler() :
 ################################################################################
 
 ################################################################################
+def deleteClasses() :
+
+  for root, subdirs, files in os.walk("..") :
+    if ".git" in root :
+      continue
+    for filename in files :
+      if os.path.splitext(filename)[1] == ".class" :
+        os.remove(root+"/"+filename)
+        
+  return classpath
+################################################################################
+
+################################################################################
 def findClasspath() :
   global classpath
 
@@ -177,11 +190,13 @@ def printEvaluationResult(destination, evaluationResult, useColor) :
 
 ################################################################################
 if __name__ == "__main__" :
-  compileCompiler()
 
   inputFiles = findInputFiles()
   deleteCompilationOutputs()
+
+  compileCompiler()
   compileInputFiles(inputFiles)
+  deleteClasses()
 
   saEvaluation = evaluateSa(inputFiles)
   tsEvaluation = evaluateDiff(inputFiles, ".ts", "ts-ref/", "Table des Symboles")
