@@ -3,7 +3,7 @@ import compiler.ts.*;
 
 public class SaVarSimple implements SaVar{
     public String nom;
-    public TsItem tsItem;
+    public TsItemVar tsItem;
 
     public SaVarSimple(String nom){
 	this.nom = nom;

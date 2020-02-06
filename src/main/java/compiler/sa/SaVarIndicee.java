@@ -4,7 +4,7 @@ import compiler.ts.*;
 public class SaVarIndicee implements SaVar{
     private String nom;
     private SaExp indice;
-    public TsItem tsItem;
+    public TsItemVar tsItem;
 
     public SaVarIndicee(String nom, SaExp indice){
 	this.nom = nom;
