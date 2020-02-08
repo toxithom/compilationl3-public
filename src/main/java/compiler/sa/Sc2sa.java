@@ -10,27 +10,22 @@ public class Sc2sa extends DepthFirstAdapter {
     return returnValue;
   }
 
+  private SaNode apply (Switchable switchable) {
+    switchable.apply(this);
+    return returnValue;
+  }
+
   @Override
   public void defaultIn (Node node) {
     this.returnValue = null;
   }
 
   public void caseAProg (AProg node) {
-    node.getOptvars().apply(this);
-    SaLDec optVars = (SaLDec) returnValue;
-    node.getFunctions().apply(this);
-    SaLDec functions = (SaLDec) returnValue;
-
-    returnValue = new SaProg(optVars, functions);
+    returnValue = new SaProg((SaLDec) apply(node.getOptvars()), (SaLDec) apply(node.getFunctions()));
   }
 
   public void caseANotEmptyOptvars (ANotEmptyOptvars node) {
-    node.getDvar().apply(this);
-    SaDec head = (SaDec) returnValue;
-    node.getDvars().apply(this);
-    SaLDec tail = (SaLDec) returnValue;
-
-    returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec((SaDec) apply(node.getDvar()), (SaLDec) apply(node.getDvars()));
   }
 
   public void caseASimpleDvar (ASimpleDvar node) {
@@ -42,55 +37,31 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAAppendDvars (AAppendDvars node) {
-    node.getDvar().apply(this);
-    SaDec head = (SaDec) returnValue;
-    node.getDvars().apply(this);
-    SaLDec tail = (SaLDec) returnValue;
-
-    returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec((SaDec) apply(node.getDvar()), (SaLDec) apply(node.getDvars()));
   }
 
   public void caseANotEmptyFunctions (ANotEmptyFunctions node) {
-    node.getDfunc().apply(this);
-    SaDec head = (SaDec) returnValue;
-    node.getFunctions().apply(this);
-    SaLDec tail = (SaLDec) returnValue;
-
-    returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec((SaDec) apply(node.getDfunc()), (SaLDec) apply(node.getFunctions()));
   }
 
   public void caseADfunc (ADfunc node) {
-    node.getParameters().apply(this);
-    SaLDec params = (SaLDec) returnValue;
-    node.getOptvars().apply(this);
-    SaLDec vars = (SaLDec) returnValue;
-    node.getBlock().apply(this);
-    SaInst body = (SaInst) returnValue;
-
-    returnValue = new SaDecFonc(node.getId().getText(), params, vars, body);
+    returnValue = new SaDecFonc(
+      node.getId().getText(),
+      (SaLDec) apply(node.getParameters()),
+      (SaLDec) apply(node.getOptvars()),
+      (SaInst) apply(node.getBlock()));
   }
 
   public void caseAListParameters (AListParameters node) {
-    node.getDvar().apply(this);
-    SaDec head = (SaDec) returnValue;
-    node.getDvars().apply(this);
-    SaLDec tail = (SaLDec) returnValue;
-
-    returnValue = new SaLDec(head, tail);
+    returnValue = new SaLDec((SaDec) apply(node.getDvar()), (SaLDec) apply(node.getDvars()));
   }
 
   public void caseABlock (ABlock block) {
-    block.getStatements().apply(this);
-    returnValue = new SaInstBloc((SaLInst) returnValue);
+    returnValue = new SaInstBloc((SaLInst) apply(block.getStatements()));
   }
 
   public void caseAAppendStatements (AAppendStatements node) {
-    node.getStatement().apply(this);
-    SaInst head = (SaInst) returnValue;
-    node.getStatements().apply(this);
-    SaLInst tail = (SaLInst) returnValue;
-
-    returnValue = new SaLInst(head, tail);
+    returnValue = new SaLInst((SaInst) apply(node.getStatement()), (SaLInst) apply(node.getStatements()));
   }
 
   public void caseAAssignStatement (AAssignStatement node) {
@@ -110,8 +81,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAWriteStatement (AWriteStatement node) {
-    node.getWrite().apply(this);
-    returnValue = new SaInstEcriture((SaExp) returnValue);
+    returnValue = new SaInstEcriture((SaExp) apply(node.getWrite()));
   }
 
   public void caseAReturnStatement (AReturnStatement node) {
@@ -127,23 +97,12 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAAssign (AAssign node) {
-    node.getVar().apply(this);
-    SaVar id = (SaVar) returnValue;
-    node.getE().apply(this);
-    SaExp value = (SaExp) returnValue;
-
-    returnValue = new SaInstAffect(id, value);
+    returnValue = new SaInstAffect((SaVar) apply(node.getVar()), (SaExp) apply(node.getE()));
   }
 
   public void caseAIf (AIf node) {
-    node.getE().apply(this);
-    SaExp exp = (SaExp) returnValue;
-    node.getBlock().apply(this);
-    SaInst thenBlock = (SaInst) returnValue;
-    node.getElse().apply(this);
-    SaInst elseBlock = (SaInst) returnValue;
-
-    returnValue = new SaInstSi(exp, thenBlock, elseBlock);
+    returnValue = new SaInstSi(
+      (SaExp) apply(node.getE()), (SaInst) apply(node.getBlock()), (SaInst) apply(node.getElse()));
   }
 
   public void caseAElseElse (AElseElse node) {
@@ -151,12 +110,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAWhile (AWhile node) {
-    node.getE().apply(this);
-    SaExp exp = (SaExp) returnValue;
-    node.getBlock().apply(this);
-    SaInst block = (SaInst) returnValue;
-
-    returnValue = new SaInstTantQue(exp, block);
+    returnValue = new SaInstTantQue((SaExp) apply(node.getE()), (SaInst) node.getBlock());
   }
 
   public void caseAWrite (AWrite node) {
@@ -164,17 +118,11 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAReturn (AReturn node) {
-    node.getE().apply(this);
-    returnValue = new SaInstRetour((SaExp) returnValue);
+    returnValue = new SaInstRetour((SaExp) apply(node.getE()));
   }
 
   public void caseAOrE (AOrE node) {
-    node.getE().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE1().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpOr(op1, op2);
+    returnValue = new SaExpOr((SaExp) apply(node.getE()), (SaExp) apply(node.getE1()));
   }
 
   public void caseAAndE (AAndE node) {
@@ -182,12 +130,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAAndE1 (AAndE1 node) {
-    node.getE1().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE2().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpAnd(op1, op2);
+    returnValue = new SaExpAnd((SaExp) apply(node.getE1()), (SaExp) apply(node.getE2()));
   }
 
   public void caseAEqualE1 (AEqualE1 node) {
@@ -195,21 +138,11 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAEqualE2 (AEqualE2 node) {
-    node.getE2().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE3().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpEqual(op1, op2);
+    returnValue = new SaExpEqual((SaExp) apply(node.getE2()), (SaExp) node.getE3());
   }
 
   public void caseALtE2 (ALtE2 node) {
-    node.getE2().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE3().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpInf(op1, op2);
+    returnValue = new SaExpInf((SaExp) apply(node.getE2()), (SaExp) apply(node.getE3()));
   }
 
   public void caseAAddE2 (AAddE2 node) {
@@ -217,21 +150,11 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAAddE3 (AAddE3 node) {
-    node.getE3().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE4().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpAdd(op1, op2);
+    returnValue = new SaExpAdd((SaExp) apply(node.getE3()), (SaExp) apply(node.getE4()));
   }
 
   public void caseASubE3 (ASubE3 node) {
-    node.getE3().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE4().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpSub(op1, op2);
+    returnValue = new SaExpSub((SaExp) apply(node.getE3()), (SaExp) apply(node.getE4()));
   }
 
   public void caseAFactorE3 (AFactorE3 node) {
@@ -239,21 +162,11 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAFactorE4 (AFactorE4 node) {
-    node.getE4().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE5().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpMult(op1, op2);
+    returnValue = new SaExpMult((SaExp) apply(node.getE4()), (SaExp) apply(node.getE5()));
   }
 
   public void caseADivE4 (ADivE4 node) {
-    node.getE4().apply(this);
-    SaExp op1 = (SaExp) returnValue;
-    node.getE5().apply(this);
-    SaExp op2 = (SaExp) returnValue;
-
-    returnValue = new SaExpDiv(op1, op2);
+    returnValue = new SaExpDiv((SaExp) apply(node.getE4()), (SaExp) apply(node.getE5()));
   }
 
   public void caseANotE4 (ANotE4 node) {
@@ -261,8 +174,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseANotE5 (ANotE5 node) {
-    node.getE5().apply(this);
-    returnValue = new SaExpNot((SaExp) returnValue);
+    returnValue = new SaExpNot((SaExp) apply(node.getE5()));
   }
 
   public void caseAParE5 (AParE5 node) {
@@ -282,13 +194,11 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAVarTerm (AVarTerm node) {
-    node.getVar().apply(this);
-    returnValue = new SaExpVar((SaVar) returnValue);
+    returnValue = new SaExpVar((SaVar) apply(node.getVar()));
   }
 
   public void caseACallTerm (ACallTerm node) {
-    node.getCall().apply(this);
-    returnValue = new SaExpAppel((SaAppel) returnValue);
+    returnValue = new SaExpAppel((SaAppel) apply(node.getCall()));
   }
 
   public void caseAReadTerm (AReadTerm node) {
@@ -300,31 +210,19 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAArrayVar (AArrayVar node) {
-    node.getE().apply(this);
-    returnValue = new SaVarIndicee(node.getId().getText(), (SaExp) returnValue);
+    returnValue = new SaVarIndicee(node.getId().getText(), (SaExp) apply(node.getE()));
   }
 
   public void caseACall (ACall node) {
-    node.getArguments().apply(this);
-    returnValue = new SaAppel(node.getId().getText(), (SaLExp) returnValue);
+    returnValue = new SaAppel(node.getId().getText(), (SaLExp) apply(node.getArguments()));
   }
 
   public void caseAListArguments (AListArguments node) {
-    node.getE().apply(this);
-    SaExp head = (SaExp) returnValue;
-    node.getEs().apply(this);
-    SaLExp tail = (SaLExp) returnValue;
-
-    returnValue = new SaLExp(head, tail);
+    returnValue = new SaLExp((SaExp) apply(node.getE()), (SaLExp) apply(node.getEs()));
   }
 
   public void caseAAppendEs (AAppendEs node) {
-    node.getE().apply(this);
-    SaExp head = (SaExp) returnValue;
-    node.getEs().apply(this);
-    SaLExp tail = (SaLExp) returnValue;
-
-    returnValue = new SaLExp(head, tail);
+    returnValue = new SaLExp((SaExp) apply(node.getE()), (SaLExp) apply(node.getEs()));
   }
 
   public void caseARead (ARead node) {
