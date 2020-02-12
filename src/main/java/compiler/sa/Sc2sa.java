@@ -56,6 +56,7 @@ public class Sc2sa extends DepthFirstAdapter {
     returnValue = new SaLDec((SaDec) apply(node.getDvar()), (SaLDec) apply(node.getDvars()));
   }
 
+  // @FIXME :: empty block case is broken
   public void caseABlock (ABlock block) {
     returnValue = new SaInstBloc((SaLInst) apply(block.getStatements()));
   }
@@ -63,6 +64,16 @@ public class Sc2sa extends DepthFirstAdapter {
   public void caseAAppendStatements (AAppendStatements node) {
     returnValue = new SaLInst((SaInst) apply(node.getStatement()), (SaLInst) apply(node.getStatements()));
   }
+
+  // @FIXME :: broken case
+//  public void caseAEmptyStatements (AEmptyStatements node) {
+//    returnValue = new SaLInst(new SaInst() {
+//      @Override
+//      public <T> T accept (SaVisitor<T> visitor) {
+//        return null;
+//      }
+//    }, null);
+//  }
 
   public void caseAAssignStatement (AAssignStatement node) {
     node.getAssign().apply(this);
@@ -92,9 +103,15 @@ public class Sc2sa extends DepthFirstAdapter {
     node.getBlock().apply(this);
   }
 
-  public void caseAEmptyStatement (AEmptyStatement node) {
-    // @TODO : ?
-  }
+  // @FIXME :: seems broken too
+//  public void caseAEmptyStatement (AEmptyStatement node) {
+//    returnValue = new SaInst() {
+//      @Override
+//      public <T> T accept (SaVisitor<T> visitor) {
+//        return null;
+//      }
+//    };
+//  }
 
   public void caseAAssign (AAssign node) {
     returnValue = new SaInstAffect((SaVar) apply(node.getVar()), (SaExp) apply(node.getE()));
@@ -110,7 +127,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAWhile (AWhile node) {
-    returnValue = new SaInstTantQue((SaExp) apply(node.getE()), (SaInst) node.getBlock());
+    returnValue = new SaInstTantQue((SaExp) apply(node.getE()), (SaInst) apply(node.getBlock()));
   }
 
   public void caseAWrite (AWrite node) {
@@ -138,7 +155,7 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseAEqualE2 (AEqualE2 node) {
-    returnValue = new SaExpEqual((SaExp) apply(node.getE2()), (SaExp) node.getE3());
+    returnValue = new SaExpEqual((SaExp) apply(node.getE2()), (SaExp) apply(node.getE3()));
   }
 
   public void caseALtE2 (ALtE2 node) {
