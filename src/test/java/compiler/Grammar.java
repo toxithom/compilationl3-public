@@ -3,6 +3,7 @@ package compiler;
 import compiler.sc.lexer.Lexer;
 import compiler.sc.parser.Parser;
 
+import helpers.FileLoader;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,13 +12,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PushbackReader;
-import java.net.URL;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class Grammar {
-
   @ParameterizedTest
   @MethodSource
   void shouldNotThrowParserOrLexerException (File file) throws IOException {
@@ -28,9 +26,6 @@ public class Grammar {
 
   @SuppressWarnings("unused")
   private static Stream<File> shouldNotThrowParserOrLexerException () {
-    ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    URL url = loader.getResource("input");
-    assert url != null;
-    return Arrays.stream(Objects.requireNonNull(new File(url.getPath()).listFiles()));
+    return Arrays.stream(FileLoader.listFiles("input", FileLoader.onlySource));
   }
 }
