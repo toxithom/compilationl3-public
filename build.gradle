@@ -41,4 +41,16 @@ processResources {
     }
 }
 
+jar {
+    manifest {
+        attributes('Main-Class': 'compiler.Compiler')
+    }
+}
+
+clean {
+    delete fileTree('src/test/resources/input').matching {
+        include '**/*ts', '**/*.sa', '**/*.sc'
+    }
+}
+
 //compileJava.dependsOn sablecc
