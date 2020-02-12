@@ -29,7 +29,6 @@ class Sc2saTest {
   Sc2saTest () throws ParserConfigurationException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     dbf.setNamespaceAware(false);
-    dbf.setNamespaceAware(false);
     dbf.setCoalescing(true);
     dbf.setIgnoringElementContentWhitespace(true);
     dbf.setIgnoringComments(true);
