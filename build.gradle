@@ -53,4 +53,4 @@ clean {
     }
 }
 
-//compileJava.dependsOn sablecc
+compileJava.dependsOn sablecc
