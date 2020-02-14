@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public class C3aInstFEnd extends C3aInst{
     public C3aInstFEnd(String comment){

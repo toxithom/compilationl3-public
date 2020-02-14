@@ -1,11 +1,9 @@
-package c3a;
+package compiler.c3a;
 
-public class C3aInstCall extends C3aInst{
-    public C3aFunction op1;    // opérande 1 (ou null)
+public class C3aInstJump extends C3aInst{
     public C3aOperand result; // résultat ou destination du saut (ou NULL)
 
-    public C3aInstCall(C3aFunction op1, C3aOperand result, String comment){
-	this.op1 = op1;
+    public C3aInstJump(C3aOperand result, String comment){
 	this.result = result;
 	this.comment = comment;
     }
@@ -15,9 +13,7 @@ public class C3aInstCall extends C3aInst{
 	if(this.label != null)
 	    s = s + this.label;
 	s = s + "\t";
-	if(this.result != null)
-	    s = s + this.result + " =";
-	s = s + " call " + this.op1 + this.comment;
+	s = s + "goto " + this.result;
 	return s;
     }
 

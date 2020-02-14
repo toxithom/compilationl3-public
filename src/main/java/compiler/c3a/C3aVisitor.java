@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public interface C3aVisitor <T> {
     public T visit(C3aInstAdd inst);

@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public enum C3aOp{
 	arithAdd,

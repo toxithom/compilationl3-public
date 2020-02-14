@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 import ts.*;
 
 public class C3aVar extends C3aOperand{
@@ -17,7 +17,7 @@ public class C3aVar extends C3aOperand{
 	else
 	    return this.item.getIdentif();
     }
-    
+
     public <T> T accept(C3aVisitor <T> visitor) {
         return visitor.visit(this);
     }

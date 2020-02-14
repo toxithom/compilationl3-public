@@ -1,10 +1,10 @@
-package c3a;
+package compiler.c3a;
 
 public class C3aLabel extends C3aOperand{
     public int number; // numéro de l'étiquette
     private int line;   // ligne de l'opération correspondant à l'étiquette
     //    public String name;
-    
+
     //    public C3aLabel(int number, int line, String name){
     public C3aLabel(int number){
 	this.number = number;
@@ -18,7 +18,7 @@ public class C3aLabel extends C3aOperand{
     public String toString(){
 	return "l" + this.number;
     }
-    
+
     public <T> T accept(C3aVisitor <T> visitor) {
         return visitor.visit(this);
     }

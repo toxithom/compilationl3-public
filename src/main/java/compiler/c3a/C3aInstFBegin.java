@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 import ts.*;
 
 public class C3aInstFBegin extends C3aInst{

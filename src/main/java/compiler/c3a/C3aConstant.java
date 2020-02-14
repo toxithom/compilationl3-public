@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public class C3aConstant extends C3aOperand{
     public int val;

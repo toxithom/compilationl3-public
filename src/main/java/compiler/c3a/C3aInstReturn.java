@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public class C3aInstReturn extends C3aInst{
     public C3aOperand op1;    // opérande 1 (ou null)

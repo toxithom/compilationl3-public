@@ -1,11 +1,11 @@
-package c3a;
+package compiler.c3a;
 
-public class C3aInstMult extends C3aInst{
+public class C3aInstJumpIfNotEqual extends C3aInst{
     public C3aOperand op1;    // opérande 1 (ou null)
     public C3aOperand op2;    // opérande 2 (ou null)
     public C3aOperand result; // résultat ou destination du saut (ou NULL)
 
-    public C3aInstMult(C3aOperand op1, C3aOperand op2, C3aOperand result, String comment){
+    public C3aInstJumpIfNotEqual(C3aOperand op1, C3aOperand op2, C3aOperand result, String comment){
 	this.op1 = op1;
 	this.op2 = op2;
 	this.result = result;
@@ -13,15 +13,15 @@ public class C3aInstMult extends C3aInst{
     }
 
     public String toString(){
+	String s = "";
 	if(this.label != null)
-	    return this.label + "\t" + this.result + " = " + this.op1 + " * " + this.op2 + this.comment;
-	else
-	    return              "\t" + this.result + " = " + this.op1 + " * " + this.op2 + this.comment;
+	    s = s + this.label;
+	s = s + "\tif " + this.op1 + " != " + this.op2 + " goto " + this.result;
+	return s;
     }
 
     public <T> T accept(C3aVisitor <T> visitor) {
         return visitor.visit(this);
     }
-
 }
 

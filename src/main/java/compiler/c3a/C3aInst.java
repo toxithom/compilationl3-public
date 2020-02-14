@@ -1,4 +1,4 @@
-package c3a;
+package compiler.c3a;
 
 public class C3aInst{
     public C3aLabel label ;   // étiquette optionnelle, si la ligne est cible d'un saut

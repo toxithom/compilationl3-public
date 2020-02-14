@@ -1,10 +1,10 @@
-package c3a;
+package compiler.c3a;
 
-public class C3aInstJump extends C3aInst{
-    public C3aOperand result; // résultat ou destination du saut (ou NULL)
+public class C3aInstParam extends C3aInst{
+    public C3aOperand op1;    // opérande 1 (ou null)
 
-    public C3aInstJump(C3aOperand result, String comment){
-	this.result = result;
+    public C3aInstParam(C3aOperand op1, String comment){
+	this.op1 = op1;
 	this.comment = comment;
     }
 
@@ -13,12 +13,13 @@ public class C3aInstJump extends C3aInst{
 	if(this.label != null)
 	    s = s + this.label;
 	s = s + "\t";
-	s = s + "goto " + this.result;
+	s = s + "param " + this.op1;
 	return s;
     }
 
     public <T> T accept(C3aVisitor <T> visitor) {
         return visitor.visit(this);
     }
+
 }
 

@@ -1,9 +1,10 @@
-package c3a;
+package compiler.c3a;
 
-public class C3aInstParam extends C3aInst{
+public class C3aInstWrite extends C3aInst{
     public C3aOperand op1;    // opérande 1 (ou null)
+    public C3aOperand result; // résultat ou destination du saut (ou NULL)
 
-    public C3aInstParam(C3aOperand op1, String comment){
+    public C3aInstWrite(C3aOperand op1, String comment){
 	this.op1 = op1;
 	this.comment = comment;
     }
@@ -13,7 +14,7 @@ public class C3aInstParam extends C3aInst{
 	if(this.label != null)
 	    s = s + this.label;
 	s = s + "\t";
-	s = s + "param " + this.op1;
+	s = s + "write " + this.op1 + "\t" + this.comment;
 	return s;
     }
 
