@@ -1,8 +1,8 @@
 package compiler.c3a;
 import java.util.*;
 import java.io.*;
-import ts.*;
-import sa.*;
+import compiler.ts.*;
+import compiler.sa.*;
 
 
 public class C3a{

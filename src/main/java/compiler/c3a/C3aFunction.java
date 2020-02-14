@@ -1,5 +1,5 @@
 package compiler.c3a;
-import ts.*;
+import compiler.ts.*;
 
 
 public class C3aFunction extends C3aOperand{
