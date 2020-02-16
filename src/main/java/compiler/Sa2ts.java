@@ -40,12 +40,9 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
       else
         return null; // @TODO :: warn user
 
-    if (isParam)
-      node.tsItem = scope.addParam(node.getNom());
-    else
-      node.tsItem = scope.addVar(node.getNom(), 1);
-
-    node.tsItem.portee = scope;
+    node.tsItem = isParam
+      ? scope.addParam(node.getNom())
+      : scope.addVar(node.getNom(), 1);
 
     return null;
   }
@@ -55,7 +52,6 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     if (globalTable.getVar(node.getNom()) != null) return null; // @TODO :: warn user
 
     node.tsItem = scope.addVar(node.getNom(), node.getTaille());
-    node.tsItem.portee = scope;
 
     return null;
   }
