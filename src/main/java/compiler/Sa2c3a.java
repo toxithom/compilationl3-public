@@ -148,46 +148,43 @@ public class Sa2c3a extends SaDepthFirstVisitor<C3aOperand> {
 
   @Override
   public C3aOperand visit (SaExpNot node) {
-    var labelExit = c3a.newAutoLabel();
-    var labelIfTest = c3a.newAutoLabel();
+    var label = c3a.newAutoLabel();
     var tx = c3a.newTemp();
 
-    c3a.ajouteInst(new C3aInstJumpIfEqual(node.getOp1().accept(this), c3a.False, labelIfTest, ""));
-    addStatements(labelIfTest, labelExit, tx);
+    c3a.ajouteInst(new C3aInstAffect(c3a.True, tx, ""));
+    c3a.ajouteInst(new C3aInstJumpIfEqual(node.getOp1().accept(this), c3a.False, label, ""));
+    c3a.ajouteInst(new C3aInstAffect(c3a.False, tx, ""));
+    c3a.addLabelToNextInst(label);
 
     return tx;
   }
 
   @Override
+  @SuppressWarnings("Duplicates")
   public C3aOperand visit (SaExpEqual node) {
-    var labelExit = c3a.newAutoLabel();
-    var labelIfTest = c3a.newAutoLabel();
+    var label = c3a.newAutoLabel();
     var tx = c3a.newTemp();
 
-    c3a.ajouteInst(new C3aInstJumpIfEqual(node.getOp1().accept(this), node.getOp2().accept(this), labelIfTest, ""));
-    addStatements(labelIfTest, labelExit, tx);
+    c3a.ajouteInst(new C3aInstAffect(c3a.True, tx, ""));
+    c3a.ajouteInst(new C3aInstJumpIfEqual(node.getOp1().accept(this), node.getOp2().accept(this), label, ""));
+    c3a.ajouteInst(new C3aInstAffect(c3a.False, tx, ""));
+    c3a.addLabelToNextInst(label);
 
     return tx;
   }
 
   @Override
+  @SuppressWarnings("Duplicates")
   public C3aOperand visit (SaExpInf node) {
-    var labelExit = c3a.newAutoLabel();
-    var labelIfTest = c3a.newAutoLabel();
+    var label = c3a.newAutoLabel();
     var tx = c3a.newTemp();
 
-    c3a.ajouteInst(new C3aInstJumpIfLess(node.getOp1().accept(this), node.getOp2().accept(this), labelIfTest, ""));
-    addStatements(labelIfTest, labelExit, tx);
+    c3a.ajouteInst(new C3aInstAffect(c3a.True, tx, ""));
+    c3a.ajouteInst(new C3aInstJumpIfLess(node.getOp1().accept(this), node.getOp2().accept(this), label, ""));
+    c3a.ajouteInst(new C3aInstAffect(c3a.False, tx, ""));
+    c3a.addLabelToNextInst(label);
 
     return tx;
-  }
-
-  private void addStatements (C3aLabel labelIfTest, C3aLabel labelExit, C3aOperand result) {
-    c3a.ajouteInst(new C3aInstAffect(c3a.False, result, ""));
-    c3a.ajouteInst(new C3aInstJump(labelExit, ""));
-    c3a.addLabelToNextInst(labelIfTest);
-    c3a.ajouteInst(new C3aInstAffect(c3a.True, result, ""));
-    c3a.addLabelToNextInst(labelExit);
   }
 
   @Override
