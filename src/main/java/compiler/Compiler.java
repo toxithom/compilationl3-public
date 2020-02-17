@@ -6,7 +6,7 @@ import compiler.sc.node.*;
 import java.io.*;
 import compiler.sa.*;
 import compiler.ts.*;
-//import c3a.*;
+import compiler.c3a.*;
 //import nasm.*;
 //import fg.*;
 
@@ -32,25 +32,27 @@ public class Compiler {
 	    // Parse the input.
 	    Start tree = p.parse();
 
-	    //System.out.println("[SC]");
+	    System.out.println("[SC]");
 	    //tree.apply(new Sc2Xml(baseName));
-	    //tree.apply(new Sc2Xml(null));
 
 	    System.out.println("[SA]");
 	    Sc2sa sc2sa = new Sc2sa();
 	    tree.apply(sc2sa);
 	    SaNode saRoot = sc2sa.getRoot();
 	    //new Sa2Xml(saRoot, baseName);
-	    new Sa2Xml(saRoot, null);
-      /*
+
+
 	    System.out.println("[TABLE SYMBOLES]");
 	    Ts table = new Sa2ts(saRoot).getTableGlobale();
-	    table.afficheTout(baseName);
+	    table.afficheTout(null);
+
+	    new SaEval(saRoot, table);
 
 	    System.out.println("[C3A]");
 	    C3a c3a = new Sa2c3a(saRoot, table).getC3a();
-	    c3a.affiche(baseName);
+	    c3a.affiche(null);
 
+	    /*
 	    System.out.println("[NASM]");
 	    Nasm nasm = new C3a2nasm(c3a, table).getNasm();
 	    nasm.affiche(baseName);
