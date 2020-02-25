@@ -73,9 +73,15 @@ public class Sa2c3a extends SaDepthFirstVisitor<C3aOperand> {
 
   @Override
   public C3aOperand visit (SaAppel node) {
-    if (node.getArguments() != null) node.getArguments().accept(this);
+    return handleCall(node, null);
+  }
 
-    return new C3aFunction(node.tsItem);
+  private C3aOperand handleCall (SaAppel node, C3aOperand result) {
+    var c3aFunction = new C3aFunction(node.tsItem);
+    if (node.getArguments() != null) node.getArguments().accept(this);
+    c3a.ajouteInst(new C3aInstCall(c3aFunction, result, ""));
+
+    return c3aFunction;
   }
 
   @Override
@@ -100,7 +106,7 @@ public class Sa2c3a extends SaDepthFirstVisitor<C3aOperand> {
   @Override
   public C3aOperand visit (SaExpAppel node) {
     var tx = c3a.newTemp();
-    c3a.ajouteInst(new C3aInstCall((C3aFunction) node.getVal().accept(this), tx, ""));
+    handleCall(node.getVal(), tx);
 
     return tx;
   }
