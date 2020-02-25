@@ -11,17 +11,22 @@ import compiler.sa.SaVarSimple;
 import compiler.ts.Ts;
 import compiler.ts.TsItemVar;
 
+import java.util.ArrayDeque;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
 
 public class Sa2ts extends SaDepthFirstVisitor<Void> {
   private final Ts globalTable = new Ts();
   private Ts scope = globalTable;
   private boolean isParam = false;
+  private final Queue<Map.Entry<SaAppel, Ts>> nodeQueue = new ArrayDeque<>();
 
   public Sa2ts (SaNode root) {
     root.accept(this);
     Objects.requireNonNull(globalTable.getFct("main"), "main function is not defined");
     if (globalTable.getFct("main").nbArgs > 0) throw new IllegalArgumentException("function main takes no arguments");
+    processFunctionCalls();
   }
 
   public Ts getTableGlobale () {
@@ -99,17 +104,26 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
   }
 
   public Void visit (SaAppel node) {
-    node.tsItem = globalTable.getFct(node.getNom());
-    Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
-
-    int argsLength = node.getArguments() == null ? 0 : node.getArguments().length();
-
-    if (argsLength > 0) node.getArguments().accept(this);
-
-    if (argsLength != node.tsItem.nbArgs)
-      throw new IllegalArgumentException("illegal arguments error : function " +
-        node.getNom() + " takes " + (argsLength > 0 ? argsLength : "no") + " arguments");
-
+    nodeQueue.offer(Map.entry(node, scope));
     return null;
+  }
+
+  private void processFunctionCalls () {
+    while (!nodeQueue.isEmpty()) {
+      var entry = nodeQueue.poll();
+      var node = entry.getKey();
+
+      scope = entry.getValue();
+      node.tsItem = globalTable.getFct(node.getNom());
+      Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
+
+      int argsLength = node.getArguments() == null ? 0 : node.getArguments().length();
+
+      if (argsLength > 0) node.getArguments().accept(this);
+
+      if (argsLength != node.tsItem.nbArgs)
+        throw new IllegalArgumentException("illegal arguments error : function " +
+          node.getNom() + " takes " + (node.tsItem.nbArgs > 0 ? node.tsItem.nbArgs : "no") + " arguments");
+    }
   }
 }

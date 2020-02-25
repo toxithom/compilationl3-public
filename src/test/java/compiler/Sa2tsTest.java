@@ -63,6 +63,11 @@ class Sa2tsTest {
   }
 
   @Test
+  void shouldNotRaiseWhenCallingFunctionBeforeDeclaration () {
+    assertDoesNotThrow(() -> buildTs("main () { test (); } test () { retour 1; }"));
+  }
+
+  @Test
   void shouldRaiseWhenTooManyArguments () {
     assertThrows(IllegalArgumentException.class, () -> buildTs("main () { main(1); }"));
   }
