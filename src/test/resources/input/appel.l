@@ -1,9 +1,9 @@
-procedure(entier a, entier b)
+entier procedure(entier a, entier b)
 {
 retour(a + b);
 }
 
-main()
+void main()
 {
 ecrire(procedure(1, 2));
 }

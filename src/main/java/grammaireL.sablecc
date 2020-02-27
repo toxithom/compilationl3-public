@@ -41,8 +41,9 @@ return = 'retour';
 
 type_int = 'entier';
 type_bool = 'bool';
-false = 'faux';
-true = 'vrai';
+type_void = 'void';
+true = 'true';
+false = 'false';
 
 blank = (' ' | 13 | 10)+;
 comment = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
@@ -69,6 +70,7 @@ dvars =
     {append} comma dvar dvars |
     {empty} ;
 type =
+    {void} type_void |
     {int} type_int |
     {bool} type_bool ;
 
@@ -76,7 +78,7 @@ functions =
     {not_empty} dfunc functions |
     {empty} ;
 dfunc =
-    id l_par parameters r_par optvars block ;
+    type id l_par parameters r_par optvars block ;
 parameters =
     {list} dvar dvars |
     {empty} ;
@@ -108,9 +110,13 @@ e6 =
 
 term =
     {num} number |
+    {boolean} boolean_literal |
     {var} var |
     {call} call |
     {read} P.read ;
+boolean_literal =
+    {true} true |
+    {false} false ;
 var =
     {simple} id |
     {array} id l_bracket e r_bracket ;

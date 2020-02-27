@@ -1,5 +1,5 @@
 entier c;
-main()
+entier main()
 entier a, entier b;
 {
     retour a + b;

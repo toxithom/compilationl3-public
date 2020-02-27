@@ -1,5 +1,5 @@
 entier a;
-main()
+void main()
 {
 si (0 ) alors
 {ecrire(1);

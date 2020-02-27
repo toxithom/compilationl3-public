@@ -1,5 +1,5 @@
 entier a;
-main()
+void main()
 {
 a = 10;
 tantque 2 < a  faire{

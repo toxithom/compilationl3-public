@@ -1,4 +1,4 @@
-main () {
+void main () {
     si a = b alors {
         tantque a faire {
             b = 4;

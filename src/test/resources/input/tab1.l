@@ -1,5 +1,5 @@
 entier t[10];
-main()
+void main()
 {
 t[5] = 123;
 ecrire(t[5]);
