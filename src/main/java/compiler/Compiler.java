@@ -47,6 +47,7 @@ public class Compiler {
 	    table.afficheTout(null);
 
 	    new SaEval(saRoot, table);
+	    new TypeChecker(saRoot, table);
 
 	    System.out.println("[C3A]");
 	    C3a c3a = new Sa2c3a(saRoot, table).getC3a();
