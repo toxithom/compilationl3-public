@@ -49,7 +49,7 @@ public class Sa2Xml extends SaDepthFirstVisitor < Void > {
 	defaultOut(node);
 	return null;
     }
-    
+
     public Void visit(SaDecFonc node)
     {
 	defaultIn(node);
@@ -71,6 +71,14 @@ public class Sa2Xml extends SaDepthFirstVisitor < Void > {
 	return null;
     }
 
+    public Void visit(SaExpBool node)
+  {
+    defaultIn(node);
+    for(int i = 0; i < indentation; i++){this.out.print(" ");}
+    this.out.println("<val>"+ node.value +"</val>");
+    defaultOut(node);
+    return null;
+  }
     public Void visit(SaVarSimple node)
     {
 	defaultIn(node);

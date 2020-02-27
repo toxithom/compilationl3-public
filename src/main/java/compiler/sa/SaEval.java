@@ -59,6 +59,13 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	defaultOut(node);
 	return node.getVal();
     }
+
+    public Integer visit (SaExpBool node) {
+      defaultIn(node);
+      defaultOut(node);
+      return node.value ? 1 : 0;
+    }
+
     public Integer visit(SaExpVar node)
     {
 	defaultIn(node);
