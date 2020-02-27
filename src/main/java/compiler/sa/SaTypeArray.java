@@ -1,15 +1,20 @@
 package compiler.sa;
 
-public class SaTypeInt implements SaType {
+public class SaTypeArray implements SaType {
+  private final SaType saType;
+
+  public SaTypeArray (SaType saType) {
+    this.saType = saType;
+  }
 
   @Override
   public Type getType () {
-    return Type.INT;
+    return saType.getType();
   }
 
   @Override
   public String toString () {
-    return Type.INT.toString();
+    return getType() + "[]";
   }
 
   @Override

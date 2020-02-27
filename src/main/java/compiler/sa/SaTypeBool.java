@@ -8,6 +8,11 @@ public class SaTypeBool implements SaType {
   }
 
   @Override
+  public String toString () {
+    return Type.BOOL.toString();
+  }
+
+  @Override
   public <T> T accept (SaVisitor<T> visitor) {
     return visitor.visit(this);
   }
