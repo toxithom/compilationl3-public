@@ -23,9 +23,9 @@ public class Ts
 	this.adrArgCourant = 0;
     }
 
-    public TsItemVar addVar(String identif, int taille)
+    public TsItemVar addVar(String identif, int taille, SaType type)
     {
-	TsItemVar item = new TsItemVar(identif, taille);
+	TsItemVar item = new TsItemVar(identif, taille, type);
 	item.portee = this;
 	item.adresse = this.adrVarCourante;
 	this.adrVarCourante += item.getTaille();
@@ -33,9 +33,9 @@ public class Ts
 	return item;
     }
 
-    public TsItemVar addParam(String identif)
+    public TsItemVar addParam(String identif, SaType type)
     {
-	TsItemVar item = new TsItemVar(identif, 1);
+	TsItemVar item = new TsItemVar(identif, 1, type);
 	item.portee = this;
 	item.adresse = this.adrArgCourant;
 	item.isParam = true;

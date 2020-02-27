@@ -6,6 +6,7 @@ import compiler.sa.SaDecTab;
 import compiler.sa.SaDecVar;
 import compiler.sa.SaDepthFirstVisitor;
 import compiler.sa.SaNode;
+import compiler.sa.SaTypeArray;
 import compiler.sa.SaVarIndicee;
 import compiler.sa.SaVarSimple;
 import compiler.ts.Ts;
@@ -46,8 +47,8 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
         return null; // @TODO :: warn user
 
     node.tsItem = isParam
-      ? scope.addParam(node.getNom())
-      : scope.addVar(node.getNom(), 1);
+      ? scope.addParam(node.getNom(), node.getSaType())
+      : scope.addVar(node.getNom(), 1, node.getSaType());
 
     return null;
   }
@@ -56,7 +57,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     if (isLocalScope()) throw new RuntimeException("error : array declaration cannot be local");
     if (globalTable.getVar(node.getNom()) != null) return null; // @TODO :: warn user
 
-    node.tsItem = scope.addVar(node.getNom(), node.getTaille());
+    node.tsItem = scope.addVar(node.getNom(), node.getTaille(), node.getSaType());
 
     return null;
   }
@@ -85,9 +86,8 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     node.tsItem = scope.variables.getOrDefault(node.getNom(), globalTable.getVar(node.getNom()));
     Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
 
-    // @TODO :: use size of type
-    if (node.tsItem.taille > 1)
-      throw new RuntimeException("type error : '" + node.getNom() + "' is an array");
+    if (node.tsItem.saType instanceof SaTypeArray)
+      throw new RuntimeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
 
     return null;
   }
@@ -96,9 +96,9 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     node.tsItem = scope.variables.getOrDefault(node.getNom(), globalTable.getVar(node.getNom()));
     Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
 
-    // @TODO :: use size of type
-    if (node.tsItem.taille == 1)
-      throw new RuntimeException("type error : '" + node.getNom() + "' is not an array");
+
+    if (!(node.tsItem.saType instanceof SaTypeArray))
+      throw new RuntimeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
 
     return null;
   }

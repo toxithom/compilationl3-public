@@ -18,6 +18,7 @@ interface SaVisitor <T> {
     public T visit(SaExp node);
     public T visit(SaExpLire node);
     public T visit(SaExpInt node);
+    public T visit(SaExpBool node);
     public T visit(SaExpVar node);
     public T visit(SaExpAppel node);
     public T visit(SaExpAdd node);
@@ -31,4 +32,5 @@ interface SaVisitor <T> {
     public T visit(SaExpNot node);
     public T visit(SaLExp node);
     public T visit(SaVarIndicee node);
+    public T visit(SaType node);
 }

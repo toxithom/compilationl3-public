@@ -3,7 +3,7 @@ package compiler.ts;
 import compiler.sa.*;
 
 
-public class TsItemFct {//extends TsItem {
+public class TsItemFct implements TsItem {
     public String identif;
     public int nbArgs;
     private Ts table;
@@ -20,6 +20,7 @@ public class TsItemFct {//extends TsItem {
     public int getTaille(){return 0;}
     public Ts getTable(){return this.table;}
     public String getIdentif(){return this.identif;}
+    public Type getType () {return saDecFonc.getType();}
     public String toString(){
     	return this.identif +  "\tFCT\t" + this.nbArgs;
     }
