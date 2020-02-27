@@ -1,5 +1,7 @@
 package compiler.sa;
 
 public interface SaDec extends SaNode {
-    public String getNom();
+    String getNom();
+    SaType getSaType();
+    Type getType();
 }

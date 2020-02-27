@@ -105,6 +105,11 @@ public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
 	defaultOut(node);
 	return null;
     }
+    public T visit(SaExpBool node) {
+      defaultIn(node);
+      defaultOut(node);
+      return null;
+    }
     public T visit(SaExpVar node)
     {
 	defaultIn(node);
@@ -342,5 +347,10 @@ public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
 	defaultOut(node);
 	return null;
     }
+
+  @Override
+  public T visit (SaType node) {
+    return null;
+  }
 
 }

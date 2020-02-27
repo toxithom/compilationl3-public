@@ -29,11 +29,26 @@ public class Sc2sa extends DepthFirstAdapter {
   }
 
   public void caseASimpleDvar (ASimpleDvar node) {
-    returnValue = new SaDecVar(node.getId().getText());
+    returnValue = new SaDecVar(node.getId().getText(), (SaType) apply(node.getType()));
   }
 
   public void caseAArrayDvar (AArrayDvar node) {
-    returnValue = new SaDecTab(node.getId().getText(), Integer.parseInt(node.getNumber().toString().trim()));
+    returnValue = new SaDecTab(
+      node.getId().getText(),
+      Integer.parseInt(node.getNumber().toString().trim()),
+      new SaTypeArray((SaType) apply(node.getType())));
+  }
+
+  public void caseABoolType (ABoolType node) {
+    returnValue = new SaTypeBool();
+  }
+
+  public void caseAIntType (AIntType node) {
+    returnValue = new SaTypeInt();
+  }
+
+  public void caseAVoidType (AVoidType node) {
+    returnValue = new SaTypeVoid();
   }
 
   public void caseAAppendDvars (AAppendDvars node) {
@@ -46,6 +61,7 @@ public class Sc2sa extends DepthFirstAdapter {
 
   public void caseADfunc (ADfunc node) {
     returnValue = new SaDecFonc(
+      (SaType) apply(node.getType()),
       node.getId().getText(),
       (SaLDec) apply(node.getParameters()),
       (SaLDec) apply(node.getOptvars()),
@@ -208,6 +224,10 @@ public class Sc2sa extends DepthFirstAdapter {
 
   public void caseANumTerm (ANumTerm node) {
     returnValue = new SaExpInt(Integer.parseInt(node.getNumber().toString().trim()));
+  }
+
+  public void caseABooleanTerm (ABooleanTerm node) {
+    returnValue = new SaExpBool(Boolean.parseBoolean(node.getBooleanLiteral().toString().trim()));
   }
 
   public void caseAVarTerm (AVarTerm node) {
