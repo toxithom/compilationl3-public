@@ -87,7 +87,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
 
     if (node.tsItem.saType instanceof SaTypeArray)
-      throw new RuntimeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
+      throw new TypeChecker.TypeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
 
     return null;
   }
@@ -98,7 +98,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
 
 
     if (!(node.tsItem.saType instanceof SaTypeArray))
-      throw new RuntimeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
+      throw new TypeChecker.TypeException("type error : '" + node.getNom() + "' " + node.tsItem.saType + " expected");
 
     return null;
   }
