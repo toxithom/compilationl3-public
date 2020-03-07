@@ -8,6 +8,11 @@ public class SaTypeVoid implements SaType {
   }
 
   @Override
+  public int getSize () {
+    return 0;
+  }
+
+  @Override
   public String toString () {
     return Type.VOID.toString();
   }

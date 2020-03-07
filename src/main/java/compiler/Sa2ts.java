@@ -48,7 +48,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
 
     node.tsItem = isParam
       ? scope.addParam(node.getNom(), node.getSaType())
-      : scope.addVar(node.getNom(), 1, node.getSaType());
+      : scope.addVar(node.getNom(), node.getSaType());
 
     return null;
   }
@@ -57,7 +57,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     if (isLocalScope()) throw new RuntimeException("error : array declaration cannot be local");
     if (globalTable.getVar(node.getNom()) != null) return null; // @TODO :: warn user
 
-    node.tsItem = scope.addVar(node.getNom(), node.getTaille(), node.getSaType());
+    node.tsItem = scope.addVar(node.getNom(), node.getSaType());
 
     return null;
   }

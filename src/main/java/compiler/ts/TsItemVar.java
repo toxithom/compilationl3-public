@@ -12,9 +12,9 @@ public class TsItemVar implements TsItem {
     public final SaType saType;
     //public int adresse;
 
-    public TsItemVar(String identif, int taille, SaType saType){
+    public TsItemVar(String identif, SaType saType){
 	this.identif = identif;
-	this.taille = taille;
+	this.taille = saType.getSize();
 	this.adresse = 0;
 	this.saType = saType;
 	this.portee = null;

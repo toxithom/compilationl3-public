@@ -36,7 +36,7 @@ public class Sc2sa extends DepthFirstAdapter {
     returnValue = new SaDecTab(
       node.getId().getText(),
       Integer.parseInt(node.getNumber().toString().trim()),
-      new SaTypeArray((SaType) apply(node.getType())));
+      new SaTypeArray((SaType) apply(node.getType()), Integer.parseInt(node.getNumber().toString().trim())));
   }
 
   public void caseABoolType (ABoolType node) {

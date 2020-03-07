@@ -8,6 +8,11 @@ public class SaTypeBool implements SaType {
   }
 
   @Override
+  public int getSize () {
+    return Type.BOOL.size;
+  }
+
+  @Override
   public String toString () {
     return Type.BOOL.toString();
   }

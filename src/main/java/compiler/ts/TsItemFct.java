@@ -22,7 +22,7 @@ public class TsItemFct implements TsItem {
     public String getIdentif(){return this.identif;}
     public Type getType () {return saDecFonc.getType();}
     public String toString(){
-    	return this.identif +  "\tFCT\t" + this.nbArgs;
+    	return this.identif +  "\tFCT\t" + getType() + "\t" + this.nbArgs;
     }
 
 }
