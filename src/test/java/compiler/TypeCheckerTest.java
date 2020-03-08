@@ -44,7 +44,10 @@ class TypeCheckerTest {
       "void main () bool a, entier b; { a = true; b = 1;  b = b * a; }",
       "void main () bool a, entier b; { a = true; b = 1;  b = b / a; }",
       "void a; void main () { retour a; }",
-      "void a[10]; void main () { ecrire(a[0]); }"
+      "void a[10]; void main () { ecrire(a[0]); }",
+      "entier a[10]; void main () { a[1 & 2] = 0; }",
+      "entier a[10]; void main () { a[1 | 2] = 0; }",
+      "entier a[10]; void main () { a[!1] = 0; }"
     );
   }
 }

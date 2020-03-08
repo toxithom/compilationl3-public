@@ -163,6 +163,8 @@ public class TypeChecker extends SaDepthFirstVisitor<Type> {
 
   @Override
   public Type visit (SaVarIndicee node) {
+    if (node.getIndice().accept(this) != Type.INT) throw new TypeException(Type.INT);
+
     return node.tsItem.getType();
   }
 
