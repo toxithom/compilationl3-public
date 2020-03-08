@@ -9,6 +9,7 @@ import compiler.sa.SaNode;
 import compiler.sa.SaTypeArray;
 import compiler.sa.SaVarIndicee;
 import compiler.sa.SaVarSimple;
+import compiler.sa.Type;
 import compiler.ts.Ts;
 import compiler.ts.TsItemVar;
 
@@ -39,6 +40,8 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
   }
 
   public Void visit (SaDecVar node) {
+    if (node.getType() == Type.VOID) throw new TypeChecker.TypeException("illegal type in declaration : " + Type.VOID);
+
     TsItemVar itemVar = scope.getVar(node.getNom());
     if (itemVar != null)
       if (isLocalScope())
@@ -54,6 +57,7 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
   }
 
   public Void visit (SaDecTab node) {
+    if (node.getType() == Type.VOID) throw new TypeChecker.TypeException("illegal type in declaration : " + Type.VOID);
     if (isLocalScope()) throw new RuntimeException("error : array declaration cannot be local");
     if (globalTable.getVar(node.getNom()) != null) return null; // @TODO :: warn user
 

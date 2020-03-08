@@ -22,18 +22,6 @@ public class TypeChecker extends SaDepthFirstVisitor<Type> {
     return null;
   }
 
-  @Override
-  public Type visit (SaDecVar node) {
-    if (node.getType() == Type.VOID) throw new TypeException("illegal type in declaration : " + Type.VOID);
-    return null;
-  }
-
-  @Override
-  public Type visit (SaDecTab node) {
-    if (node.getType() == Type.VOID) throw new TypeException("illegal type in declaration : " + Type.VOID);
-    return null;
-  }
-
   // STATEMENTS
 
   @Override
