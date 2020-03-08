@@ -9,11 +9,14 @@ public class Ts
     public Map< String, TsItemVar> variables;
     private int adrVarCourante;
     private int adrArgCourant;
+    private int nbVars;
+    private int nbArgs;
 
     public int getAdrVarCourante(){return adrVarCourante;}
+    public int getAdrArgCourant() {return adrArgCourant;}
 
-    public int nbVar(){return adrVarCourante;}
-    public int nbArg(){return adrArgCourant;}
+    public int nbVar(){return nbVars;}
+    public int nbArg(){return nbArgs;}
 
 
     public Ts(){
@@ -21,6 +24,8 @@ public class Ts
 	this.variables = new HashMap< String, TsItemVar>();
 	this.adrVarCourante = 0;
 	this.adrArgCourant = 0;
+	this.nbVars = 0;
+	this.nbArgs = 0;
     }
 
     public TsItemVar addVar(String identif, SaType type)
@@ -29,6 +34,7 @@ public class Ts
 	item.portee = this;
 	item.adresse = this.adrVarCourante;
 	this.adrVarCourante += item.getTaille();
+	this.nbVars += item.getTaille() / type.getType().size;
 	this.variables.put(identif, item);
 	return item;
     }
@@ -40,6 +46,7 @@ public class Ts
 	item.adresse = this.adrArgCourant;
 	item.isParam = true;
 	this.adrArgCourant += item.getTaille();
+	this.nbArgs += item.getTaille() / type.getType().size;
 	this.variables.put(identif, item);
 	return item;
     }

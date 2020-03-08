@@ -10,7 +10,7 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
     public SaEval(SaNode root, Ts tableGlobale){
 	this.tableGlobale = tableGlobale;
 	curEnv = null;
-	varGlob = new int[tableGlobale.nbVar()];
+	varGlob = new int[tableGlobale.getAdrVarCourante()];
 
 	SaAppel appelMain = new SaAppel("main", null);
 	appelMain.tsItem = tableGlobale.getFct("main");
@@ -132,7 +132,7 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	    SaVarIndicee lhsIndicee = (SaVarIndicee) node.getLhs();
 	    int indice = lhsIndicee.getIndice().accept(this);
 	    int base = lhsIndicee.tsItem.adresse;
-	    varGlob[base + indice] = val;
+	    varGlob[base + indice * ((SaVarIndicee) node.getLhs()).tsItem.getType().size] = val;
 	}
 	else{// lhs est une variable simple, trois cas possibles : une variable locale, une variable globale ou un argument
 	    SaVarSimple lhsSimple = (SaVarSimple) node.getLhs();
@@ -184,19 +184,15 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
     {
 	defaultIn(node);
 	TsItemFct fct = node.tsItem;
-	SaLExp lArgs = null;
-	SaLExp l;
-	Ts localTable = fct.getTable();
-	int i = 0;
+	SaLExp lArgs = node.getArguments();
 	SaEnvironment newEnv = new SaEnvironment(node.tsItem);
 
 	//	localTable.affiche(System.out);
+  for (TsItemVar arg : fct.getParams()) {
+    newEnv.setArg(arg.adresse, lArgs.getTete().accept(this));
+    lArgs = lArgs.getQueue();
+  }
 
-	for(lArgs = node.getArguments(); lArgs != null; lArgs = lArgs.getQueue()){
-	    int val = lArgs.getTete().accept(this);
-	    newEnv.setArg(i, val);
-	    i++;
-	}
 	//sauvegarde de l'environnement courant pour le restaurer après l'appel
 	SaEnvironment oldEnv = curEnv;
 	// le nouvel environnement devient l'environnement courant
@@ -367,7 +363,7 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	int indice = node.getIndice().accept(this);
 	int base = node.tsItem.adresse;
 	defaultOut(node);
-	return varGlob[base + indice];
+	return varGlob[base + indice * node.tsItem.getType().size];
     }
 
 }
