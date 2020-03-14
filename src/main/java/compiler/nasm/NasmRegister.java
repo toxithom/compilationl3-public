@@ -2,10 +2,15 @@ package compiler.nasm;
 
 public class NasmRegister extends NasmOperand {
     public int val;
-    public int color = Nasm.REG_UNK;
+    public int color;
 
     public NasmRegister(int val){
-	this.val = val;
+      this(val, Nasm.REG_UNK);
+    }
+
+    public NasmRegister (int val, int color) {
+      this.val = val;
+      colorRegister(color);
     }
 
     public void colorRegister(int color){
