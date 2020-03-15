@@ -76,6 +76,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     nasm.ajouteInst(new NasmSub(getLabel(inst), esp, new NasmConstant(4), ""));
     nasm.ajouteInst(new NasmCall(null, inst.op1.accept(this), ""));
     nasm.ajouteInst(new NasmPop(null, dest, ""));
+    nasm.ajouteInst(new NasmAdd(null, esp, new NasmConstant(inst.op1.val.nbArgs * 4), ""));
 
     return dest;
   }
@@ -181,7 +182,6 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     return null;
   }
 
-
   @Override
   public NasmOperand visit (C3aInstRead inst) {
     var dest = inst.result.accept(this);
@@ -195,7 +195,6 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
 
     return dest;
   }
-
 
   @Override
   public NasmOperand visit (C3aInstWrite inst) {
@@ -238,7 +237,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
       offset = null;
     else
       offset = new NasmConstant(oper.item.isParam
-        ? (8 + 4 * (oper.item.portee.nbArg() - oper.item.getAdresse())) / 4
+        ? 2 + (oper.item.portee.nbArg() - oper.item.getAdresse())
         : 1 + oper.item.getAdresse());
 
     return new NasmAddress(base, direction, offset);
