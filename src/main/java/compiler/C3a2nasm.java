@@ -14,6 +14,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
   public C3a2nasm (C3a c3a, Ts table) {
     globalTable = table;
     nasm = new Nasm(globalTable);
+    nasm.setTempCounter(1);
     var eax = nasm.newRegister();
     var ebx = nasm.newRegister();
     eax.colorRegister(Nasm.REG_EAX);
@@ -55,7 +56,6 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
       new NasmAddress(ebp, '+', new NasmConstant(2)),
       inst.op1.accept(this), "ecriture de la valeur de retour"));
 
-
     return null;
   }
 
@@ -71,14 +71,12 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
 
   @Override
   public NasmOperand visit (C3aInstCall inst) {
-    var dest = inst.result.accept(this);
-
     nasm.ajouteInst(new NasmSub(getLabel(inst), esp, new NasmConstant(4), ""));
     nasm.ajouteInst(new NasmCall(null, inst.op1.accept(this), ""));
-    nasm.ajouteInst(new NasmPop(null, dest, ""));
+    nasm.ajouteInst(new NasmPop(null, inst.result.accept(this), ""));
     nasm.ajouteInst(new NasmAdd(null, esp, new NasmConstant(inst.op1.val.nbArgs * 4), ""));
 
-    return dest;
+    return null;
   }
 
   @Override
@@ -88,10 +86,6 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     return null;
   }
 
-  @Override
-  public NasmOperand visit (C3aFunction oper) {
-    return new NasmLabel(oper.toString());
-  }
 
   @Override
   public NasmOperand visit (C3aInst inst) {
@@ -193,7 +187,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     nasm.ajouteInst(new NasmCall(null, new NasmLabel("atoi"), ""));
     nasm.ajouteInst(new NasmMov(null, dest, eax, ""));
 
-    return dest;
+    return null;
   }
 
   @Override
@@ -205,6 +199,11 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     nasm.ajouteInst(new NasmCall(null, new NasmLabel("iprintLF"), ""));
 
     return null;
+  }
+
+  @Override
+  public NasmOperand visit (C3aFunction oper) {
+    return new NasmLabel(oper.toString());
   }
 
   @Override
@@ -224,17 +223,18 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
 
   @Override
   public NasmOperand visit (C3aVar oper) {
-    var direction = oper.item.isParam ? '+' : '-';
     var base = oper.item.portee == globalTable
       ? new NasmLabel(oper.item.identif)
       : ebp;
 
-    // @FIXME :: I'm ugly!
+    if (oper.item.portee == globalTable && oper.item.getTaille() == 1)
+      return new NasmAddress(base);
+
+    var direction = oper.item.isParam || oper.item.portee == globalTable ? '+' : '-';
     NasmConstant offset;
+
     if (oper.item.getTaille() > 1)
       offset = new NasmConstant(((C3aConstant) oper.index).val);
-    else if (oper.item.portee == globalTable)
-      offset = null;
     else
       offset = new NasmConstant(oper.item.isParam
         ? 2 + (oper.item.portee.nbArg() - oper.item.getAdresse())
