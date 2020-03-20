@@ -3,7 +3,7 @@ package compiler.nasm;
 public class NasmPop extends NasmInst {
 
     public NasmPop(NasmOperand label, NasmOperand destination, String comment){
-	destination.def = true;
+	destDef = true;
 	this.label = label;
 	this.destination = destination;
 	this.comment = comment;
