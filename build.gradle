@@ -49,7 +49,7 @@ jar {
 
 clean {
     delete fileTree('src/test/resources/input').matching {
-        include '**/*.ts', '**/*.sa', '**/*.sc', '**/*.c3a', '**/*.c3aout', '**/*.pre-nasm'
+        include '**/*.ts', '**/*.sa', '**/*.sc', '**/*.c3a', '**/*.c3aout', '**/*.pre-nasm', '**/*.fg'
     }
 }
 
