@@ -25,10 +25,12 @@ public class FgSolution {
   }
 
   private void init (NasmInst inst) {
-    in.put(inst, new IntSet(nasm.getTempCounter()));
-    out.put(inst, new IntSet(nasm.getTempCounter()));
-    use.put(inst, new IntSet(nasm.getTempCounter()));
-    def.put(inst, new IntSet(nasm.getTempCounter()));
+    int size = nasm.getTempCounter() - 1;
+
+    in.put(inst, new IntSet(size));
+    out.put(inst, new IntSet(size));
+    use.put(inst, new IntSet(size));
+    def.put(inst, new IntSet(size));
 
     if (inst.srcUse)
       addOperandToIntSet(inst.source, use.get(inst));
