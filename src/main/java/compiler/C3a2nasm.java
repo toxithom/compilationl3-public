@@ -14,7 +14,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
   public C3a2nasm (C3a c3a, Ts table) {
     globalTable = table;
     nasm = new Nasm(globalTable);
-    nasm.setTempCounter(1);
+    nasm.setTempCounter(0);
     var eax = nasm.newRegister();
     var ebx = nasm.newRegister();
     eax.colorRegister(Nasm.REG_EAX);
