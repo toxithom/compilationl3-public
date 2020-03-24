@@ -14,7 +14,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
   public C3a2nasm (C3a c3a, Ts table) {
     globalTable = table;
     nasm = new Nasm(globalTable);
-    nasm.setTempCounter(0);
+    nasm.setTempCounter(c3a.getTempCounter());
     var eax = nasm.newRegister();
     var ebx = nasm.newRegister();
     eax.colorRegister(Nasm.REG_EAX);
@@ -218,7 +218,6 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
 
   @Override
   public NasmOperand visit (C3aTemp oper) {
-    nasm.setTempCounter(nasm.getTempCounter() + 1);
     return new NasmRegister(oper.num);
   }
 
