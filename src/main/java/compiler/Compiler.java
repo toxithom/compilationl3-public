@@ -9,6 +9,7 @@ import compiler.ts.*;
 import compiler.c3a.*;
 import compiler.nasm.*;
 import compiler.fg.*;
+import compiler.ig.Ig;
 
 public class Compiler {
   public static void main (String[] args) {
@@ -74,6 +75,15 @@ public class Compiler {
 	    System.out.println("[SOLVE FG]");
 	    FgSolution fgSolution = new FgSolution(nasm, fg);
 	    fgSolution.affiche(baseName);
+
+	   System.out.print("[BUILD IG] ");
+	   Ig ig = new Ig(fgSolution);
+	   ig.allocateRegisters();
+      System.out.print("[PRINT IG] ");
+	   ig.print(baseName);
+
+	   System.out.println("[PRINT NASM] ");
+	   nasm.affiche(baseName);
 	}
 	catch(Exception e){
 	    System.out.println(e.getMessage());

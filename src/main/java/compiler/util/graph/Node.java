@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Node {
   Graph mygraph;
-  int mykey;
+  int key;
   NodeList succs;
   NodeList preds;
 
@@ -12,7 +12,7 @@ public class Node {
 
   public Node (Graph g) {
     mygraph = g;
-    mykey = g.nodecount++;
+    key = g.nodecount++;
     NodeList p = new NodeList(this, null);
     if (g.mylast == null)
       g.mynodes = g.mylast = p;
@@ -28,7 +28,7 @@ public class Node {
   }
 
   public int label () {
-    return mykey;
+    return key;
   }
 
 
@@ -72,7 +72,7 @@ public class Node {
   }
 
   public String toString () {
-    return String.valueOf(mykey);
+    return String.valueOf(key);
   }
 
   @Override
@@ -80,12 +80,12 @@ public class Node {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Node node = (Node) o;
-    return mykey == node.mykey;
+    return key == node.key;
   }
 
   @Override
   public int hashCode () {
-    return Objects.hash(mykey);
+    return Objects.hash(key);
   }
 
 }

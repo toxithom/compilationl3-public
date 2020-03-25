@@ -28,7 +28,7 @@ public class Graph {
     public Node[] nodeArray(){
 	Node[] array = new Node[nodecount];
 	for(NodeList q=mynodes; q!=null; q=q.tail) {
-	    array[q.head.mykey] = q.head;
+	    array[q.head.key] = q.head;
 	}
 	return array;
     }

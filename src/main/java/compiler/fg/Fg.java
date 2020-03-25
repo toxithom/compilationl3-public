@@ -9,15 +9,12 @@ import java.io.*;
 public class Fg implements NasmVisitor<Void> {
   public Nasm nasm;
   public Graph graph;
-  Map<NasmInst, Node> inst2Node;
-  Map<Node, NasmInst> node2Inst;
-  Map<String, NasmInst> label2Inst;
+  Map<NasmInst, Node> inst2Node = new HashMap<>();
+  Map<Node, NasmInst> node2Inst = new HashMap<>();
+  Map<String, NasmInst> label2Inst = new HashMap<>();
 
   public Fg (Nasm nasm) {
     this.nasm = nasm;
-    this.inst2Node = new HashMap<>();
-    this.node2Inst = new HashMap<>();
-    this.label2Inst = new HashMap<>();
     this.graph = new Graph();
 
     nasm.listeInst.forEach(this::init);
@@ -32,8 +29,7 @@ public class Fg implements NasmVisitor<Void> {
   }
 
   private void addEdgeToNextInst (NasmInst inst) {
-    Node from = inst2Node.get(inst);
-    graph.addEdge(from, inst2Node.get(nasm.listeInst.get(nasm.listeInst.indexOf(inst) + 1)));
+    graph.addEdge(inst2Node.get(inst), inst2Node.get(nasm.listeInst.get(nasm.listeInst.indexOf(inst) + 1)));
   }
 
   private void addEdgeToLabeledInst (NasmInst inst, NasmLabel label) {
