@@ -1,6 +1,7 @@
 package compiler.util.graph;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class NodeList implements Iterable<Node> {
   public Node head;
@@ -22,6 +23,8 @@ public class NodeList implements Iterable<Node> {
 
     @Override
     public Node next () {
+      if (!hasNext()) throw new NoSuchElementException();
+
       Node next = _head;
       _head = _tail != null ? _tail.head : null;
       _tail = _tail != null ? _tail.tail : null;

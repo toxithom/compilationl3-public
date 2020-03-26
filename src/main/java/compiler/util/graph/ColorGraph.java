@@ -7,8 +7,7 @@ import java.util.Deque;
 import java.util.stream.IntStream;
 
 public class ColorGraph {
-  public final int K;
-  public int R;
+  public final int K, R;
   private final Deque<Integer> stack = new ArrayDeque<>();
   public IntSet removed, overflowing;
   public final int[] colors;
@@ -17,14 +16,15 @@ public class ColorGraph {
 
   public ColorGraph (Graph graph, int K, int[] phi) {
     this.int2Node = graph.nodeArray();
-    this.R = graph.nodeCount();
     this.K = K;
-    this.removed = new IntSet(R);
-    this.overflowing = new IntSet(R);
-    this.colors = new int[R];
+    this.removed = new IntSet(graph.nodeCount());
+    this.overflowing = new IntSet(graph.nodeCount());
+    this.colors = new int[graph.nodeCount()];
 
     for (int v = 0; v < phi.length; ++v)
       colors[v] = phi[v] >= 0 && phi[v] < K ? phi[v] : NOCOLOR;
+
+    this.R = graph.nodeCount() - (int) IntStream.of(colors).filter(c -> c != NOCOLOR).count();
   }
 
   public IntSet neighborsColors (int v) {
@@ -45,12 +45,11 @@ public class ColorGraph {
   }
 
   public int neighborsCount (int v) {
-    if (int2Node[v].succ() == null) return 0;
-
     int count = int2Node[v].outDegree();
 
-    for (var successor : int2Node[v].succ())
-      if (removed.isMember(successor.key)) count--;
+    if (int2Node[v].succ() != null)
+      for (var successor :int2Node[v].succ())
+        if (removed.isMember(successor.key)) count--;
 
     return count;
   }
@@ -74,6 +73,7 @@ public class ColorGraph {
   public void overflow () {
     while (stack.size() != R) {
       int v = pickVertex();
+      stack.push(v);
       removed.add(v);
       overflowing.add(v); // @TODO :: ?
       simplify();
@@ -95,8 +95,6 @@ public class ColorGraph {
   }
 
   public ColorGraph color () {
-    R = R - (int) IntStream.of(colors).filter(c -> c != NOCOLOR).count();
-
     simplify();
     overflow();
     select();
@@ -106,7 +104,7 @@ public class ColorGraph {
 
   void print () {
     System.out.println("vertex\tcolor");
-    for (int i = 0; i < R; i++) {
+    for (int i = 0; i < int2Node.length; i++) {
       System.out.println(i + "\t" + colors[i]);
     }
   }

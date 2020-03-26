@@ -17,30 +17,30 @@ public class TestColorGraph {
     Node n9 = g.newNode();
     Node n10 = g.newNode();
 
-    g.addEdge(n1, n2);
-    g.addEdge(n1, n4);
-    g.addEdge(n1, n9);
+    g.addNOEdge(n1, n2);
+    g.addNOEdge(n1, n4);
+    g.addNOEdge(n1, n9);
 
-    g.addEdge(n2, n10);
+    g.addNOEdge(n2, n10);
 
-    g.addEdge(n3, n8);
-    g.addEdge(n3, n9);
-    g.addEdge(n3, n10);
+    g.addNOEdge(n3, n8);
+    g.addNOEdge(n3, n9);
+    g.addNOEdge(n3, n10);
 
-    g.addEdge(n4, n5);
-    g.addEdge(n4, n8);
-    g.addEdge(n4, n10);
+    g.addNOEdge(n4, n5);
+    g.addNOEdge(n4, n8);
+    g.addNOEdge(n4, n10);
 
-    g.addEdge(n5, n8);
-    g.addEdge(n5, n10);
+    g.addNOEdge(n5, n8);
+    g.addNOEdge(n5, n10);
 
-    g.addEdge(n6, n7);
-    g.addEdge(n6, n8);
+    g.addNOEdge(n6, n7);
+    g.addNOEdge(n6, n8);
     g.addEdge(n6, n9);
 
-    g.addEdge(n7, n8);
+    g.addNOEdge(n7, n8);
 
-    g.addEdge(n8, n9);
+    g.addNOEdge(n8, n9);
 
     g.show(System.out);
     int[] phi = new int[] {-3, -3, -3, 0, -3, 2, 1, -3, -3, -3};

@@ -41,6 +41,11 @@ public class Graph {
       from.succs=new NodeList(to, from.succs);
   }
 
+  public void addNOEdge (Node from, Node to) {
+    addEdge(from, to);
+    addEdge(to, from);
+  }
+
   NodeList delete(Node a, NodeList l) {
 	if (l==null) throw new Error("Graph.rmEdge: edge nonexistent");
         else if (a==l.head) return l.tail;
