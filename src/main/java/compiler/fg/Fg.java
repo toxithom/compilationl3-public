@@ -33,6 +33,7 @@ public class Fg implements NasmVisitor<Void> {
   }
 
   private void addEdgeToLabeledInst (NasmInst inst, NasmLabel label) {
+    if (!label2Inst.containsKey(label.val)) return;
     graph.addEdge(inst2Node.get(inst), inst2Node.get(label2Inst.get(label.val)));
   }
 
@@ -42,7 +43,8 @@ public class Fg implements NasmVisitor<Void> {
   }
 
   public Void visit (NasmCall inst) {
-    addEdgeToNextInst(inst);
+    addEdgeToLabeledInst(inst, (NasmLabel) inst.address);
+    //@TODO :: addEdgeToNextInst(inst); ?
     return null;
   }
 
@@ -108,6 +110,8 @@ public class Fg implements NasmVisitor<Void> {
   }
 
   public Void visit (NasmInst inst) {
+    addEdgeToNextInst(inst);
+    // @TODO :: remove ? seems weird
     return null;
   }
 
@@ -122,6 +126,9 @@ public class Fg implements NasmVisitor<Void> {
   }
 
   public Void visit (NasmRet inst) {
+    if (nasm.listeInst.indexOf(inst) != nasm.listeInst.size() -1)
+      addEdgeToNextInst(inst);
+   // @TODO :: remove ? seems weird too
     return null;
   }
 

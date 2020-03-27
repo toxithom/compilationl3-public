@@ -79,7 +79,7 @@ public class Compiler {
 	   System.out.print("[BUILD IG] ");
 	   Ig ig = new Ig(fgSolution);
 	   ig.allocateRegisters();
-      System.out.print("[PRINT IG] ");
+	   System.out.print("[PRINT IG] ");
 	   ig.print(baseName);
 
 	   System.out.println("[PRINT NASM] ");
