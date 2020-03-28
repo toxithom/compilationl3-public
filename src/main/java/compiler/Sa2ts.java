@@ -85,7 +85,6 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     node.tsItem = scope.variables.getOrDefault(node.getNom(), globalTable.getVar(node.getNom()));
     Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
 
-    // @TODO :: use size of type
     if (node.tsItem.taille > 1)
       throw new RuntimeException("type error : '" + node.getNom() + "' is an array");
 
@@ -96,7 +95,6 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     node.tsItem = scope.variables.getOrDefault(node.getNom(), globalTable.getVar(node.getNom()));
     Objects.requireNonNull(node.tsItem, "reference error : undefined identifier '" + node.getNom() + "'");
 
-    // @TODO :: use size of type
     if (node.tsItem.taille == 1)
       throw new RuntimeException("type error : '" + node.getNom() + "' is not an array");
 
