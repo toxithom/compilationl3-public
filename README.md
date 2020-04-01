@@ -21,6 +21,7 @@ git clone https://github.com/toxithom/compiler.git
 
 ```
 ./gradlew test
+./gradlew evaluate
 ```
 
 ## Built With

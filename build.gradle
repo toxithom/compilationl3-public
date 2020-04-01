@@ -35,8 +35,14 @@ task sablecc(type: Exec) {
     commandLine 'java',  '-jar', '.bin/sablecc.jar', 'src/main/java/grammaireL.sablecc'
 }
 
+task compileStuff(type: Exec) {
+    workingDir 'src/test/resources/compare_arbres'
+    commandLine 'make'
+}
+
 task evaluate(type: Exec) {
     dependsOn jar
+    dependsOn compileStuff
     workingDir 'src/test/resources'
     commandLine './evaluate.py'
 }
@@ -56,7 +62,7 @@ jar {
 clean {
     delete fileTree('src/test/resources/input').matching {
         include '**/*.ts', '**/*.sa', '**/*.sc', '**/*.c3a', '**/*.c3aout', '**/*.pre-nasm', '**/*.nasm',
-                '**/*.fg', '**/*.fgs', '**/*.ig', '**/*.exe', '**/*.o', '**/*.out'
+                '**/*.fg', '**/*.fgs', '**/*.ig', '**/*.exe', '**/*.o', '**/*.out', '**/*.saout'
     }
 }
 
