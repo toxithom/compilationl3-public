@@ -15,14 +15,15 @@ public class Compiler {
   public static void main (String[] args) {
 	  PushbackReader br = null;
 	  String baseName = null;
+    //int RegisterNb =  4;
 
 	  try {
 	    if (0 < args.length) {
-		br = new PushbackReader(new FileReader(args[0]), 1024);
-		baseName = removeSuffix(args[0], ".l");
-	    }
-	    else{
-		System.out.println("il manque un argument");
+		    br = new PushbackReader(new FileReader(args[0]));
+		    baseName = removeSuffix(args[0], ".l");
+	    }	else {
+		    System.out.println("il manque un argument");
+		    System.exit(1);
 	    }
 	  }	catch (IOException e) {
 	    e.printStackTrace();
@@ -52,13 +53,19 @@ public class Compiler {
 	    System.out.println("[PRINT TS]");
 	    table.afficheTout(baseName);
 
-	    System.out.print("[BUILD C3A]");
+	    System.out.print("[EXEC SA] ");
+	    SaEval saEval = new SaEval(saRoot, table);
+
+	    System.out.println("[SA OUT]");
+	    saEval.affiche(baseName);
+
+	    System.out.print("[BUILD C3A] ");
 	    C3a c3a = new Sa2c3a(saRoot, table).getC3a();
 
 	    System.out.print("[PRINT C3A] ");
 	    c3a.affiche(baseName);
 
-	    System.out.println("[PRINT C3A OUT]");
+	    System.out.println("[C3A OUT]");
 	    C3aEval c3aEval = new C3aEval(c3a, table);
 	    c3aEval.affiche(baseName);
 
@@ -76,19 +83,23 @@ public class Compiler {
 	    FgSolution fgSolution = new FgSolution(nasm, fg);
 	    fgSolution.affiche(baseName);
 
-	   System.out.print("[BUILD IG] ");
-	   Ig ig = new Ig(fgSolution);
-	   ig.allocateRegisters();
-	   System.out.print("[PRINT IG] ");
-	   ig.print(baseName);
+	    System.out.print("[BUILD IG] ");
+	    Ig ig = new Ig(fgSolution);
 
-	   System.out.println("[PRINT NASM] ");
-	   nasm.affiche(baseName);
+	    System.out.print("[PRINT IG] ");
+	    ig.print(baseName);
+
+	    System.out.println("[ALLOCATE REGISTERS]");
+	    ig.allocateRegisters();
+
+	    System.out.println("[PRINT NASM]");
+	    nasm.affiche(baseName);
 	}
 	catch(Exception e){
 	    System.out.println(e.getMessage());
-	  }
-  }
+	    System.exit(1);
+	}
+    }
 
   public static String removeSuffix (final String s, final String suffix) {
 	  if (s != null && suffix != null && s.endsWith(suffix))

@@ -5,8 +5,10 @@
 *\.c3aout
 *\.pre-nasm
 *\.nasm
+*\.ig
 *\.fg
 *\.fgs
 *\.exe
 *\.out
+*\.saout
 *\.o
