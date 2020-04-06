@@ -7,11 +7,11 @@ import java.util.Deque;
 import java.util.stream.IntStream;
 
 public class ColorGraph {
-  public final int K, R;
+  private final int K, R;
   private final Deque<Integer> stack = new ArrayDeque<>();
-  public IntSet removed, overflowing;
+  private IntSet removed, overflowing;
   public final int[] colors;
-  public final Node[] int2Node;
+  private final Node[] int2Node;
   static final int NOCOLOR = -1;
 
   public ColorGraph (Graph graph, int K, int[] phi) {

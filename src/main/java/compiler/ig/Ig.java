@@ -16,10 +16,10 @@ import java.io.PrintStream;
 import java.util.stream.IntStream;
 
 public class Ig {
-  public final FgSolution fgs;
-  public final Nasm nasm;
+  private final FgSolution fgs;
+  private final Nasm nasm;
   public final Graph graph = new Graph();
-  public Node[] int2Node;
+  private Node[] int2Node;
 
   public Ig (FgSolution fgs) {
     this.fgs = fgs;

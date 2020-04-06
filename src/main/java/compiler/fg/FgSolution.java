@@ -8,13 +8,13 @@ import java.io.*;
 import java.util.*;
 
 public class FgSolution {
-  int iterNum = 0;
-  public Nasm nasm;
+  private final Map<NasmInst, IntSet> use = new HashMap<>();
+  private final Map<NasmInst, IntSet> def = new HashMap<>();
+  public final Map<NasmInst, IntSet> in = new HashMap<>();
+  public final Map<NasmInst, IntSet> out = new HashMap<>();
+  private int iterNum = 0;
+  public final Nasm nasm;
   Fg fg;
-  public Map<NasmInst, IntSet> use = new HashMap<>();
-  public Map<NasmInst, IntSet> def = new HashMap<>();
-  public Map<NasmInst, IntSet> in = new HashMap<>();
-  public Map<NasmInst, IntSet> out = new HashMap<>();
 
   public FgSolution (Nasm nasm, Fg fg) {
     this.nasm = nasm;

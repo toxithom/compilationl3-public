@@ -2,25 +2,16 @@ package compiler;
 
 import compiler.c3a.*;
 import compiler.sa.*;
-import compiler.ts.Ts;
-import compiler.ts.TsItemVar;
 
 public class Sa2c3a extends SaDepthFirstVisitor<C3aOperand> {
   private final C3a c3a = new C3a();
-  private final Ts globalTable;
 
-  public Sa2c3a (SaNode saRoot, Ts globalTable) {
-    this.globalTable = globalTable;
+  public Sa2c3a (SaNode saRoot) {
     saRoot.accept(this);
   }
 
   public C3a getC3a () {
     return c3a;
-  }
-
-  @SuppressWarnings("unused")
-  private boolean isLocal (TsItemVar itemVar) {
-    return itemVar.portee != globalTable;
   }
 
   @Override

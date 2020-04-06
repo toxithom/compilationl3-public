@@ -31,7 +31,6 @@ public class Node {
     return key;
   }
 
-
   NodeList cat (NodeList a, NodeList b) {
     if (a == null) return b;
     else return new NodeList(a.head, cat(a.tail, b));
@@ -87,5 +86,4 @@ public class Node {
   public int hashCode () {
     return Objects.hash(key);
   }
-
 }

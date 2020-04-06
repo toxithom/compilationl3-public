@@ -7,11 +7,11 @@ import java.util.*;
 import java.io.*;
 
 public class Fg implements NasmVisitor<Void> {
-  public Nasm nasm;
-  public Graph graph;
-  Map<NasmInst, Node> inst2Node = new HashMap<>();
-  Map<Node, NasmInst> node2Inst = new HashMap<>();
-  Map<String, NasmInst> label2Inst = new HashMap<>();
+  private final Nasm nasm;
+  public final Graph graph;
+  private final Map<NasmInst, Node> inst2Node = new HashMap<>();
+  public final Map<Node, NasmInst> node2Inst = new HashMap<>();
+  private final Map<String, NasmInst> label2Inst = new HashMap<>();
 
   public Fg (Nasm nasm) {
     this.nasm = nasm;
