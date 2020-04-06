@@ -98,6 +98,8 @@ public class Sa2ts extends SaDepthFirstVisitor<Void> {
     if (node.tsItem.taille == 1)
       throw new RuntimeException("type error : '" + node.getNom() + "' is not an array");
 
+    node.getIndice().accept(this);
+
     return null;
   }
 
