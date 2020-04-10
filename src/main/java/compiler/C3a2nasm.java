@@ -236,7 +236,7 @@ public class C3a2nasm implements C3aVisitor<NasmOperand> {
     NasmConstant offset;
 
     if (oper.item.getTaille() > 1)
-      offset = new NasmConstant(((C3aConstant) oper.index).val);
+      offset = (NasmConstant) oper.index.accept(this);
     else
       offset = new NasmConstant(oper.item.isParam
         ? 2 + (oper.item.portee.nbArg() - oper.item.getAdresse())
